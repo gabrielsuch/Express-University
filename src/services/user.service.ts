@@ -34,7 +34,7 @@ class UserService {
         user.sex = body.sex
         user.email = body.email
         user.password = await bcrypt.hash(body.password, 10)
-        user.isADM = body.isADM
+        user.is_adm = body.is_adm
 
         userRepository.create(user)
         await userRepository.save(user)
