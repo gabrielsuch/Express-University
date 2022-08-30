@@ -71,5 +71,5 @@ export class User {
     @Column({
         default: false
     })
-    isADM: boolean
+    is_adm: boolean
 }
