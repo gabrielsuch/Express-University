@@ -12,8 +12,7 @@ export class Course {
     name: string
 
     @Column({
-        type: "int",
-        length: 3
+        type: "int"
     })
     duration: number
 
