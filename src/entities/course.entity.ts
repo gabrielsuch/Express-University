@@ -7,6 +7,7 @@ export class Course {
     id: string
 
     @Column({
+        unique: true,
         length: 150
     })
     name: string
