@@ -7,6 +7,7 @@ export class Grade {
     id: string
 
     @Column({
+        unique: true,
         length: 100
     })
     name: string

@@ -27,6 +27,7 @@ export class User {
     birthdate: Date
 
     @Column({
+        unique: true,
         length: 14
     })
     cpf: string
@@ -59,6 +60,7 @@ export class User {
     sex: SexRole
 
     @Column({
+        unique: true,
         length: 150
     })
     email: string
