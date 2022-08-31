@@ -4,9 +4,11 @@ import UserService from "../services/user.service"
 
 
 class UserController {
-    // getCurrentUser = async (req: Request, res: Response) => {
+    getCurrentUser = async (req: Request, res: Response) => {
+        const user = await UserService.getCurrentUser(req)
 
-    // }
+        return res.status(user.status).json(user.message)
+    }
 
     getUsers = async (req: Request, res: Response) => {
         const user = await UserService.getUsers()
@@ -16,6 +18,18 @@ class UserController {
 
     createUser = async (req: Request, res: Response) => {
         const user = await UserService.createUser(req)
+
+        return res.status(user.status).json(user.message)
+    }
+
+    updateUser = async (req: Request, res: Response) => {
+        const user = await UserService.updateUser(req)
+
+        return res.status(user.status).json(user.message)
+    }
+    
+    deleteUser = async (req: Request, res: Response) => {
+        const user = await UserService.deleteUser(req)
 
         return res.status(user.status).json(user.message)
     }
