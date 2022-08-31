@@ -8,9 +8,18 @@ import jwt from "jsonwebtoken"
 
 
 class UserService {
-    // getCurrentUser = async () => {
+    getCurrentUser = async ({decoded}: Request) => {
+        const userRepository = AppDataSource.getRepository(User)
+        const currentUser = await userRepository.findOneBy({
+            email: decoded
+        })
 
-    // }
+        if(!currentUser) {
+            return {status: 404, message: {error: "User not found."}}
+        }
+
+        return {status: 200, message: currentUser}
+    }
 
     getUsers = async () => {
         const userRepository = AppDataSource.getRepository(User)
@@ -40,6 +49,41 @@ class UserService {
         await userRepository.save(user)
 
         return {status: 201, message: user}
+    }
+
+    updateUser = async ({body, decoded}: Request) => {
+        const userRepository = AppDataSource.getRepository(User)
+        const currentUser = await userRepository.findOneBy({
+            email: decoded
+        })
+
+        if(!currentUser) {
+            return {status: 404, message: {error: "User not found."}}
+        }
+
+        userRepository.update(currentUser.id, body)
+        await userRepository.save(currentUser)
+
+        const updatedUser = await userRepository.findOneBy({
+            id: currentUser.id
+        })
+
+        return {status: 200, message: updatedUser}
+    }
+
+    deleteUser = async ({decoded}: Request) => {
+        const userRepository = AppDataSource.getRepository(User)
+        const currentUser = await userRepository.findOneBy({
+            email: decoded
+        })
+
+        if(!currentUser) {
+            return {status: 404, message: {error: "User not found."}}
+        }
+
+        await userRepository.delete(currentUser.id)
+
+        return {status: 204, message: ""}
     }
 
     login = async ({body}: Request) => {
