@@ -14,10 +14,6 @@ class UserService {
             email: decoded
         })
 
-        if(!currentUser) {
-            return {status: 404, message: {error: "User not found."}}
-        }
-
         return {status: 200, message: currentUser}
     }
 
@@ -57,15 +53,10 @@ class UserService {
             email: decoded
         })
 
-        if(!currentUser) {
-            return {status: 404, message: {error: "User not found."}}
-        }
-
-        userRepository.update(currentUser.id, body)
-        await userRepository.save(currentUser)
+        await userRepository.update(currentUser.id, body)
 
         const updatedUser = await userRepository.findOneBy({
-            id: currentUser.id
+            email: decoded
         })
 
         return {status: 200, message: updatedUser}
@@ -76,10 +67,6 @@ class UserService {
         const currentUser = await userRepository.findOneBy({
             email: decoded
         })
-
-        if(!currentUser) {
-            return {status: 404, message: {error: "User not found."}}
-        }
 
         await userRepository.delete(currentUser.id)
 
