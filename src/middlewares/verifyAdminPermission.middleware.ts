@@ -10,7 +10,7 @@ const verifyAdminPermissionMiddleware = async (req: Request, res: Response, next
         email: req.decoded
     })
 
-    if(!user.is_adm) {
+    if(!user || !user.is_adm) {
         return res.status(401).json({error: "Missing Admin Permission."})
     }
 
