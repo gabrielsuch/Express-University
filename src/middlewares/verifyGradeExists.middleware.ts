@@ -13,6 +13,8 @@ const verifyGradeExistsMiddleware = async (req: Request, res: Response, next: Ne
     if(!gradeExists) {
         return res.status(404).json({error: "Grade not found."})
     }
+
+    return next()
 }
 
 
