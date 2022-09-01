@@ -2,7 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column} from "typeorm"
 
 
 @Entity()
-export class TypeGrade {
+export class TypeCourse {
     @PrimaryGeneratedColumn("uuid")
     id: string
 
