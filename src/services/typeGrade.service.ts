@@ -66,7 +66,7 @@ class TypeGradeService {
         if(!grade) {
             return {status: 404, message: {error: "Type Grade not found."}}
         }
-
+        
         await typeGradeRepository.delete(grade.id)
 
         return {status: 204, message: ""}

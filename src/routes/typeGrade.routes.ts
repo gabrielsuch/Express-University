@@ -14,7 +14,7 @@ const typeGrade = () => {
     route.get("", TypeGradeController.getAllTypeGrades)
     route.post("", verifyTokenMiddleware, verifyAdminPermissionMiddleware, TypeGradeController.createTypeGrade)
     route.patch("/:typeGrade_id", verifyTokenMiddleware, verifyAdminPermissionMiddleware, TypeGradeController.updateTypeGrade)
-    route.delete("/:typeGrade_id", verifyTokenMiddleware, verifyAdminPermissionMiddleware, TypeGradeController.updateTypeGrade)
+    route.delete("/:typeGrade_id", verifyTokenMiddleware, verifyAdminPermissionMiddleware, TypeGradeController.deleteTypeGrade)
 
     return route
 }
