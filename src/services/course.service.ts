@@ -43,7 +43,7 @@ class CourseService {
             id: params.course_id
         })
 
-        await courseRepository.update(params.course_id, body)
+        await courseRepository.update(course.id, body)
 
         const updatedCourse = await courseRepository.findOneBy({
             id: params.course_id
