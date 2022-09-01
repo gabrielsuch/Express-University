@@ -11,10 +11,6 @@ class CourseService {
             id: params.course_id
         })
 
-        if(!course) {
-            return {status: 404, message: {error: "Course not found."}}
-        }
-
         return {status: 200, message: course}
     }
 
@@ -47,10 +43,6 @@ class CourseService {
             id: params.course_id
         })
 
-        if(!course) {
-            return {status: 404, message: {error: "Course not found."}}
-        }
-
         await courseRepository.update(params.course_id, body)
 
         const updatedCourse = await courseRepository.findOneBy({
@@ -65,10 +57,6 @@ class CourseService {
         const course = await courseRepository.findOneBy({
             id: params.course_id
         })
-
-        if(!course) {
-            return {status: 404, message: {error: "Course not found."}}
-        }
 
         await courseRepository.delete(course.id)
 
