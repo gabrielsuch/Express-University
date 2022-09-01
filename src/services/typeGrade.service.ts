@@ -11,10 +11,6 @@ class TypeGradeService {
             id: params.typeGrade_id
         })
 
-        if(!typeGrade) {
-            return {status: 404, message: {error: "Type Grade not found."}}
-        }
-
         return {status: 200, message: typeGrade}
     }
 
@@ -44,10 +40,6 @@ class TypeGradeService {
             id: params.typeGrade_id
         })
 
-        if(!grade) {
-            return {status: 404, message: {error: "Type Grade not found."}}
-        }
-
         await typeGradeRepository.update(grade.id, body)
 
         const updatedGrade = await typeGradeRepository.findOneBy({
@@ -62,10 +54,6 @@ class TypeGradeService {
         const grade = await typeGradeRepository.findOneBy({
             id: params.typeGrade_id
         })
-
-        if(!grade) {
-            return {status: 404, message: {error: "Type Grade not found."}}
-        }
         
         await typeGradeRepository.delete(grade.id)
 
