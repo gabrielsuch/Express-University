@@ -39,9 +39,6 @@ class CourseService {
 
     updateCourse = async ({body, params}: Request) => {
         const courseRepository = AppDataSource.getRepository(Course)
-        const course = await courseRepository.findOneBy({
-            id: params.course_id
-        })
 
         await courseRepository.update(params.course_id, body)
 
