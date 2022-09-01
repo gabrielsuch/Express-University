@@ -11,10 +11,6 @@ class GradeService {
             id: params.grade_id
         })
 
-        if(!grade) {
-            return {status: 404, message: {error: "Grade not found."}}
-        }
-
         return {status: 200, message: grade}
     }
 
@@ -44,11 +40,7 @@ class GradeService {
             id: params.grade_id
         })
 
-        if(!grade) {
-            return {status: 404, message: {error: "Grade not found."}}
-        }
-
-        await gradeRepository.update(params.grade_id, body)
+        await gradeRepository.update(grade.id, body)
 
         const updatedGrade = await gradeRepository.findOneBy({
             id: params.grade_id
@@ -63,11 +55,7 @@ class GradeService {
             id: params.grade_id
         })
 
-        if(!grade) {
-            return {status: 404, message: {error: "Grade not found."}}
-        }
-
-        await gradeRepository.delete(params.grade_id)
+        await gradeRepository.delete(grade.id)
 
         return {status: 204, message: ""}
     }
