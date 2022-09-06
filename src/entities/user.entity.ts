@@ -1,4 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn} from "typeorm"
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany} from "typeorm"
+
+import {Course} from "./course.entity"
+import {Grade} from "./grade.entity"
 
 
 enum TypeRole {
@@ -74,4 +77,10 @@ export class User {
         default: false
     })
     is_adm: boolean
+
+    @ManyToOne(() => Course, (course) => course.students)
+    course: Course
+
+    @OneToMany(() => Grade, (grade) => grade.teacher)
+    grade: Grade 
 }
