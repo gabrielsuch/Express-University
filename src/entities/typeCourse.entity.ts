@@ -1,4 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm"
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm"
+
+import {Course} from "./course.entity"
 
 
 @Entity()
@@ -11,4 +13,9 @@ export class TypeCourse {
         length: 100
     })
     name: string
+
+    @OneToMany(() => Course, (course) => course.type, {
+        eager: true
+    })
+    courses: Course[]
 }
