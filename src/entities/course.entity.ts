@@ -3,6 +3,7 @@ import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColu
 import {User} from "./user.entity"
 import {Grade} from "./grade.entity"
 import {TypeCourse} from "./typeCourse.entity"
+import {Rating} from "./rating.entity"
 
 
 @Entity()
@@ -39,4 +40,9 @@ export class Course {
 
     @ManyToOne(() => TypeCourse, (typeCourse) => typeCourse.courses)
     type: TypeCourse
+
+    @OneToMany(() => Rating, (rating) => rating.course, {
+        eager: true
+    })
+    ratings: Rating[]
 }
