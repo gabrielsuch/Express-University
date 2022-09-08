@@ -2,6 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, One
 
 import {Course} from "./course.entity"
 import {Grade} from "./grade.entity"
+import {Rating} from "./rating.entity"
 
 
 enum TypeRole {
@@ -83,4 +84,7 @@ export class User {
 
     @OneToMany(() => Grade, (grade) => grade.teacher)
     grade: Grade 
+
+    @OneToMany(() => Rating, (rating) => rating.user)
+    ratings: Rating[]
 }
