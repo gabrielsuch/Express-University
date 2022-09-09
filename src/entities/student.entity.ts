@@ -5,10 +5,10 @@ import {Grade} from "./grade.entity"
 import {Rating} from "./rating.entity"
 
 
-enum TypeRole {
-    Estudante = "Estudante",
-    Professor = "Professor"
-}
+// enum TypeRole {
+//     Estudante = "Estudante",
+//     Professor = "Professor"
+// }
 
 enum SexRole {
     Masculino = "Masculino",
@@ -18,7 +18,7 @@ enum SexRole {
 
 
 @Entity()
-export class User {
+export class Student {
     @PrimaryGeneratedColumn("uuid")
     id: string
 
@@ -49,12 +49,12 @@ export class User {
     @CreateDateColumn()
     created_at: Date
 
-    @Column({
-        type: "enum",
-        enum: TypeRole,
-        default: TypeRole.Estudante
-    })
-    type: TypeRole
+    // @Column({
+    //     type: "enum",
+    //     enum: TypeRole,
+    //     default: TypeRole.Estudante
+    // })
+    // type: TypeRole
 
     @Column({
         type: "enum",
@@ -74,16 +74,16 @@ export class User {
     })
     password: string
 
-    @Column({
-        default: false
-    })
-    is_adm: boolean
+    // @Column({
+    //     default: false
+    // })
+    // is_adm: boolean
 
     @ManyToOne(() => Course, (course) => course.students)
     course: Course
 
-    @OneToMany(() => Grade, (grade) => grade.teacher)
-    grade: Grade 
+    // @OneToMany(() => Grade, (grade) => grade.teacher)
+    // grade: Grade 
 
     @OneToMany(() => Rating, (rating) => rating.user)
     ratings: Rating[]

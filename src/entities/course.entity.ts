@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne} from "typeorm"
 
-import {User} from "./user.entity"
+import {Student} from "./student.entity"
 import {Grade} from "./grade.entity"
 import {TypeCourse} from "./typeCourse.entity"
 import {Rating} from "./rating.entity"
@@ -28,10 +28,10 @@ export class Course {
     @UpdateDateColumn()
     updated_at: Date
 
-    @OneToMany(() => User, (user) => user.course, {
+    @OneToMany(() => Student, (student) => student.course, {
         eager: true
     })
-    students: User[]
+    students: Student[]
 
     @OneToMany(() => Grade, (grade) => grade.course, {
         eager: true
