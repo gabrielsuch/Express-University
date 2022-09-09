@@ -1,7 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm"
 
 import {Course} from "./course.entity"
-import {User} from "./user.entity"
+import {Employee} from "./employee.entity"
 
 
 @Entity()
@@ -18,8 +18,8 @@ export class Grade {
     @ManyToOne(() => Course, (course) => course.grades)
     course: Course
 
-    @ManyToOne(() => User, (user) => user.grade, {
+    @ManyToOne(() => Employee, (employee) => employee.grade, {
         eager: true
     })
-    teacher: User
+    teacher: Employee
 }

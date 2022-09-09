@@ -1,45 +1,45 @@
 import {Request, Response} from "express"
 
-import UserService from "../services/user.service"
+import StudentService from "../services/student.service"
 
 
-class UserController {
+class StudentController {
     getCurrentUser = async (req: Request, res: Response) => {
-        const user = await UserService.getCurrentUser(req)
+        const user = await StudentService.getCurrentUser(req)
 
         return res.status(user.status).json(user.message)
     }
 
     getUsers = async (req: Request, res: Response) => {
-        const user = await UserService.getUsers()
+        const user = await StudentService.getUsers()
 
         return res.status(user.status).json(user.message)
     }
 
     createUser = async (req: Request, res: Response) => {
-        const user = await UserService.createUser(req)
+        const user = await StudentService.createUser(req)
 
         return res.status(user.status).json(user.message)
     }
 
     updateUser = async (req: Request, res: Response) => {
-        const user = await UserService.updateUser(req)
+        const user = await StudentService.updateUser(req)
 
         return res.status(user.status).json(user.message)
     }
     
     deleteUser = async (req: Request, res: Response) => {
-        const user = await UserService.deleteUser(req)
+        const user = await StudentService.deleteUser(req)
 
         return res.status(user.status).json(user.message)
     }
 
     login = async (req: Request, res: Response) => {
-        const user = await UserService.login(req)
+        const user = await StudentService.login(req)
 
         return res.status(user.status).json(user.message)
     }
 }
 
 
-export default new UserController()
+export default new StudentController()

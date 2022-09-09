@@ -1,7 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm"
 
 import {Course} from "./course.entity"
-import {User} from "./user.entity"
+import {Student} from "./student.entity"
 
 
 @Entity()
@@ -17,6 +17,6 @@ export class Rating {
     @ManyToOne(() => Course, (course) => course.ratings)
     course: Course
 
-    @ManyToOne(() => User, (user) => user.ratings)
-    user: User
+    @ManyToOne(() => Student, (student) => student.ratings)
+    user: Student
 }
