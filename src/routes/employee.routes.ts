@@ -8,6 +8,7 @@ const route = Router()
 
 const employeeRoute = () => {
     route.post("", EmployeeController.createEmployee)
+    route.post("/login", EmployeeController.login)
 
     return route
 }

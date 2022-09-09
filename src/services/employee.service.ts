@@ -3,6 +3,13 @@ import {Request} from "express"
 import {AppDataSource} from "../data-source"
 import {Employee} from "../entities/employee.entity"
 
+import jwt from "jsonwebtoken"
+
+import dotenv from "dotenv"
+
+
+dotenv.config()
+
 
 class EmployeeService { 
     createEmployee = async ({body}: Request) => {
@@ -25,6 +32,21 @@ class EmployeeService {
         await employeeRepository.save(employee)
 
         return {status: 201, message: employee}
+    }
+
+    login = async ({body}: Request) => {
+        const employeeRepository = AppDataSource.getRepository(Employee)    
+        const employeeExists = await employeeRepository.findOneBy({
+            email: body.email
+        })
+
+        if(!employeeExists) {
+            return {status: 404, message: {error: "Employee not found."}}
+        }
+
+        const token = jwt.sign({email: body.email}, String(process.env.SECRET_KEY), {expiresIn: "12h"})
+        
+        return {status: 200, message: {accessToken: token}}
     }
 }
 

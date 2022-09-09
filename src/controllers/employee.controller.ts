@@ -9,6 +9,12 @@ class EmployeeController {
 
         return res.status(employee.status).json(employee.message)
     }
+
+    login = async (req: Request, res: Response) => {
+        const employee = await EmployeeService.login(req)
+
+        return res.status(employee.status).json(employee.message)
+    }
 }
 
 
