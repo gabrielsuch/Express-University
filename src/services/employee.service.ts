@@ -12,6 +12,22 @@ dotenv.config()
 
 
 class EmployeeService { 
+    getEmployee = async ({decoded}: Request) => {
+        const employeeRepository = AppDataSource.getRepository(Employee)
+        const currentEmployee = await employeeRepository.findOneBy({
+            email: decoded
+        })
+
+        return {status: 200, message: currentEmployee}
+    }
+
+    getAllEmployees = async () => {
+        const employeeRepository = AppDataSource.getRepository(Employee)
+        const employees = await employeeRepository.find()
+
+        return {status: 200, message: employees}
+    }
+
     createEmployee = async ({body}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
         
