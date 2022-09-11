@@ -44,8 +44,6 @@ class EmployeeService {
 
     createEmployee = async ({body}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
-
-        const hashPassword = await bcrypt.hash(body.password, 10)
         
         const employee = new Employee()
         employee.id = body.id
@@ -57,7 +55,7 @@ class EmployeeService {
         employee.created_at = body.created_at
         employee.sex = body.sex
         employee.email = body.email
-        employee.password = hashPassword
+        employee.password = await bcrypt.hash(body.password, 10)
         employee.is_adm = body.is_adm
 
         employeeRepository.create(employee)
