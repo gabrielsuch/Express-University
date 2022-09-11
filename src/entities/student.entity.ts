@@ -5,11 +5,6 @@ import {Grade} from "./grade.entity"
 import {Rating} from "./rating.entity"
 
 
-// enum TypeRole {
-//     Estudante = "Estudante",
-//     Professor = "Professor"
-// }
-
 enum SexRole {
     Masculino = "Masculino",
     Feminino = "Feminino",
@@ -37,24 +32,17 @@ export class Student {
     cpf: string
 
     @Column({
-        length: 10
+        length: 14
     })
     telephone: string
 
     @Column({
-        length: 11
+        length: 15
     })
     cellphone: string
 
     @CreateDateColumn()
     created_at: Date
-
-    // @Column({
-    //     type: "enum",
-    //     enum: TypeRole,
-    //     default: TypeRole.Estudante
-    // })
-    // type: TypeRole
 
     @Column({
         type: "enum",
@@ -73,11 +61,6 @@ export class Student {
         length: 255
     })
     password: string
-
-    // @Column({
-    //     default: false
-    // })
-    // is_adm: boolean
 
     @ManyToOne(() => Course, (course) => course.students)
     course: Course
