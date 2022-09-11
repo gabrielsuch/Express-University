@@ -12,6 +12,4 @@ const createStudentSchema = yup.object().shape({
     password: yup.string().required()
 })
 
-// 111.222.333-44
-
 export default createStudentSchema
