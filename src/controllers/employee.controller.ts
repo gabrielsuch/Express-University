@@ -4,10 +4,16 @@ import EmployeeService from "../services/employee.service"
 
 
 class EmployeeController {
-    getEmployee = async (req: Request, res: Response) => {
-        const currentEmployee = await EmployeeService.getEmployee(req)
+    getCurrentEmployee = async (req: Request, res: Response) => {
+        const currentEmployee = await EmployeeService.getCurrentEmployee(req)
 
         return res.status(currentEmployee.status).json(currentEmployee.message)
+    }
+
+    getEmployee = async (req: Request, res: Response) => {
+        const employee = await EmployeeService.getEmployee(req)
+
+        return res.status(employee.status).json(employee.message)
     }
 
     getAllEmployees = async (req: Request, res: Response) => {
@@ -18,6 +24,18 @@ class EmployeeController {
 
     createEmployee = async (req: Request, res: Response) => {
         const employee = await EmployeeService.createEmployee(req)
+
+        return res.status(employee.status).json(employee.message)
+    }
+
+    updateEmployee = async (req: Request, res: Response) => {
+        const employee = await EmployeeService.updateEmployee(req)
+
+        return res.status(employee.status).json(employee.message)
+    }
+
+    deleteEmployee = async (req: Request, res: Response) => {
+        const employee = await EmployeeService.deleteEmployee(req)
 
         return res.status(employee.status).json(employee.message)
     }

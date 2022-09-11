@@ -10,10 +10,13 @@ const route = Router()
 
 
 const employeeRoute = () => {
-    route.get("", verifyTokenMiddleware, EmployeeController.getEmployee)
+    route.get("", verifyTokenMiddleware, EmployeeController.getCurrentEmployee)
+    route.get("/:id", verifyTokenMiddleware, EmployeeController.getEmployee)
     route.get("/all", verifyTokenMiddleware, verifyAdminPermissionMiddleware, EmployeeController.getAllEmployees)
-    route.post("", EmployeeController.createEmployee)
+    route.post("", verifyTokenMiddleware, verifyAdminPermissionMiddleware, EmployeeController.createEmployee)
     route.post("/login", EmployeeController.login)
+    route.patch("/:id", verifyTokenMiddleware, verifyAdminPermissionMiddleware, EmployeeController.updateEmployee)
+    route.delete("/:id", verifyTokenMiddleware, verifyAdminPermissionMiddleware, EmployeeController.deleteEmployee)
 
     return route
 }
