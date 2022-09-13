@@ -27,6 +27,7 @@ class GradeService {
         const grade = new Grade()
         grade.id = body.id
         grade.name = body.name
+        grade.duration = body.duration
 
         gradeRepository.create(grade)
         await gradeRepository.save(grade)

@@ -1,7 +1,8 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm"
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from "typeorm"
 
 import {Course} from "./course.entity"
 import {Employee} from "./employee.entity"
+import {StatusGrade} from "./statusGrade.entity"
 
 
 @Entity()
@@ -15,6 +16,11 @@ export class Grade {
     })
     name: string
 
+    @Column({
+        type: "float"
+    })
+    duration: number
+
     @ManyToOne(() => Course, (course) => course.grades)
     course: Course
 
@@ -22,4 +28,7 @@ export class Grade {
         eager: true
     })
     teacher: Employee
+
+    @OneToMany(() => StatusGrade, (statusGrade) => statusGrade.grade)
+    statusGrade: StatusGrade[]
 }

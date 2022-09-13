@@ -4,6 +4,7 @@ import {Student} from "./student.entity"
 import {Grade} from "./grade.entity"
 import {TypeCourse} from "./typeCourse.entity"
 import {Rating} from "./rating.entity"
+import {StatusCourse} from "./statusCourse.entity"
 
 
 @Entity()
@@ -18,7 +19,7 @@ export class Course {
     name: string
 
     @Column({
-        type: "int"
+        type: "float"
     })
     duration: number
 
@@ -45,4 +46,7 @@ export class Course {
         eager: true
     })
     ratings: Rating[]
+
+    @OneToMany(() => StatusCourse, (statusCourse) => statusCourse.courses)
+    statusCourse: StatusCourse[]
 }

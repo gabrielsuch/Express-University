@@ -1,8 +1,9 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany} from "typeorm"
 
 import {Course} from "./course.entity"
-import {Grade} from "./grade.entity"
 import {Rating} from "./rating.entity"
+import {StatusGrade} from "./statusGrade.entity"
+import {StatusCourse} from "./statusCourse.entity"
 
 
 enum SexRole {
@@ -65,9 +66,12 @@ export class Student {
     @ManyToOne(() => Course, (course) => course.students)
     course: Course
 
-    // @OneToMany(() => Grade, (grade) => grade.teacher)
-    // grade: Grade 
-
     @OneToMany(() => Rating, (rating) => rating.user)
     ratings: Rating[]
+
+    @OneToMany(() => StatusGrade, (statusGrade) => statusGrade.student)
+    grade: StatusGrade
+
+    @OneToMany(() => StatusCourse, (statusCourse) => statusCourse.student)
+    courses: StatusCourse[]
 }
