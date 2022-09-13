@@ -28,7 +28,9 @@ export class StatusGrade {
     }) 
     duration: number
     
-    @ManyToOne(() => Grade, (grade) => grade.statusGrade)
+    @ManyToOne(() => Grade, (grade) => grade.statusGrade, {
+        eager: true
+    })
     grade: Grade
 
     @ManyToOne(() => Student, (student) => student.grade)

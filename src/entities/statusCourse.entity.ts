@@ -28,7 +28,9 @@ export class StatusCourse {
     }) 
     duration: number
 
-    @ManyToOne(() => Course, (course) => course.statusCourse)
+    @ManyToOne(() => Course, (course) => course.statusCourse, {
+        eager: true
+    })
     courses: Course
 
     @ManyToOne(() => Student, (student) => student.course)
