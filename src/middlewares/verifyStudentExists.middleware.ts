@@ -11,7 +11,7 @@ const verifyStudentExistsMiddleware = async (req: Request, res: Response, next: 
     })
 
     if(!studentExists) {
-        return res.status(404).json({error: "User not found."})
+        return res.status(404).json({error: "Student not found."})
     }
 
     return next()
