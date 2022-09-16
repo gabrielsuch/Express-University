@@ -13,10 +13,6 @@ class RatingService {
             id: params.rating_id
         })
 
-        if(!rating) {
-            return {status: 404, message: {error: "Rating not found."}}
-        }
-
         return {status: 200, message: rating}
     }
 
@@ -78,10 +74,6 @@ class RatingService {
         const student = await studentRepository.findOneBy({
             email: decoded
         })
-
-        if(!rating) {
-            return {status: 404, message: {error: "Rating not found."}}
-        }
 
         if(rating.student.id != student.id) {
             return {status: 401, message: {error: "You don't own this Rating to delete."}}
