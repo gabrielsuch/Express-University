@@ -15,6 +15,8 @@ class StudentSerivce {
             email: decoded
         })
 
+        console.log(currentStudent)
+
         return {status: 200, message: currentStudent}
     }
 
