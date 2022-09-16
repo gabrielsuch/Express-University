@@ -29,9 +29,7 @@ export class Course {
     @UpdateDateColumn()
     updated_at: Date
 
-    @OneToMany(() => Student, (student) => student.course, {
-        eager: true
-    })
+    @OneToMany(() => Student, (student) => student.course)
     students: Student[]
 
     @OneToMany(() => Grade, (grade) => grade.course, {

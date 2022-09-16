@@ -38,7 +38,23 @@ class RatingService {
         const studentRepository = AppDataSource.getRepository(Student)
         const student = await studentRepository.findOneBy({
             email: decoded
-        })
+        })        
+
+        const userInCourse = await AppDataSource.getRepository(Student)
+                                                .createQueryBuilder("student")
+                                                .leftJoinAndSelect("student.course", "course")
+                                                .where("student.id = :id", {
+                                                    id: student.id
+                                                })
+                                                .getOne()
+                                                
+        if(!userInCourse.course) {
+            return {status: 404, message: {error: "You are not in a Course."}}
+        }
+
+        if(userInCourse.course.id != course.id) {
+            return {status: 401, message: {error: "You are not in this Course to make Rating."}}
+        } 
 
         const rating = new Rating()
         rating.id = body.id

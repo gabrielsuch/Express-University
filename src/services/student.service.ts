@@ -19,7 +19,11 @@ class StudentSerivce {
 
     getUsers = async () => {
         const studentRepository = AppDataSource.getRepository(Student)
-        const students = await studentRepository.find()
+        const students = await studentRepository.find({
+            relations: {
+                course: true
+            }
+        })
 
         return {status: 200, message: students}
     }
