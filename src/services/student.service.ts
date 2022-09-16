@@ -2,6 +2,7 @@ import {Request} from "express"
 
 import {AppDataSource} from "../data-source"
 import {Student} from "../entities/student.entity"
+import {Course} from "../entities/course.entity"
 
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
@@ -39,16 +40,33 @@ class StudentSerivce {
         student.telephone = body.telephone
         student.cellphone = body.cellphone
         student.created_at = body.created_at
-        // student.type = body.type
         student.sex = body.sex
         student.email = body.email
         student.password = await bcrypt.hash(body.password, 10)
-        // student.is_adm = body.is_adm
 
         studentRepository.create(student)
         await studentRepository.save(student)
 
         return {status: 201, message: student}
+    }
+
+    joinCourse = async ({params, decoded}: Request) => {
+        const studentRepository = AppDataSource.getRepository(Student)
+        const student = await studentRepository.findOneBy({
+            email: decoded
+        })
+
+        const courseRepository = AppDataSource.getRepository(Course)
+        const course = await courseRepository.findOneBy({
+            id: params.course_id
+        })
+
+        const studentCourse = new Student()
+        studentCourse.course = course
+
+        await studentRepository.update(student.id, studentCourse)
+
+        return {status: 200, message: studentCourse.course}
     }
 
     updateUser = async ({body, decoded}: Request) => {
