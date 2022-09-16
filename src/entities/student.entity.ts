@@ -66,7 +66,7 @@ export class Student {
     @ManyToOne(() => Course, (course) => course.students)
     course: Course
 
-    @OneToMany(() => Rating, (rating) => rating.user)
+    @OneToMany(() => Rating, (rating) => rating.student)
     ratings: Rating[]
 
     @OneToMany(() => StatusGrade, (statusGrade) => statusGrade.student)

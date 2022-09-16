@@ -17,6 +17,8 @@ export class Rating {
     @ManyToOne(() => Course, (course) => course.ratings)
     course: Course
 
-    @ManyToOne(() => Student, (student) => student.ratings)
-    user: Student
+    @ManyToOne(() => Student, (student) => student.ratings, {
+        eager: true
+    })
+    student: Student
 }
