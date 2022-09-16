@@ -22,6 +22,12 @@ class StudentController {
         return res.status(user.status).json(user.message)
     }
 
+    joinCourse = async (req: Request, res: Response) => {
+        const course = await StudentService.joinCourse(req)
+
+        return res.status(course.status).json(course.message)
+    }
+
     updateUser = async (req: Request, res: Response) => {
         const user = await StudentService.updateUser(req)
 
