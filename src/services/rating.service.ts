@@ -22,14 +22,10 @@ class RatingService {
 
     getRatings = async () => {
         const ratingRepository = AppDataSource.getRepository(Rating)
-        // const ratings = await ratingRepository.find()
-
         const ratings = await ratingRepository.createQueryBuilder("rating")
                                              .leftJoinAndSelect("rating.student", "student")
                                              .select(["rating.id", "rating.description", "student.id", "student.name"])
                                              .getMany()
-
-        console.log(ratings)
 
         return {status: 200, message: ratings}
     }
