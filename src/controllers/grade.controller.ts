@@ -22,6 +22,12 @@ class GradeController {
         return res.status(grade.status).json(grade.message)
     }
 
+    assignGradeToCourse = async (req: Request, res: Response) => {
+        const assign = await GradeService.assignGradeToCourse(req)
+
+        return res.status(assign.status).json(assign.message)
+    }
+
     updateGrade = async (req: Request, res: Response) => {
         const grade = await GradeService.updateGrade(req)
 

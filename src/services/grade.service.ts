@@ -2,6 +2,7 @@ import {Request} from "express"
 
 import {AppDataSource} from "../data-source"
 import {Grade} from "../entities/grade.entity"
+import {Course} from "../entities/course.entity"
 
 
 class GradeService {
@@ -34,6 +35,27 @@ class GradeService {
 
         return {status: 201, message: grade}
     }
+
+    assignGradeToCourse = async ({params}: Request) => {
+        const gradeRepository = AppDataSource.getRepository(Grade)
+        const grade = await gradeRepository.findOneBy({
+            id: params.grade_id
+        })
+
+        const courseRepository = AppDataSource.getRepository(Course)
+        const course = await courseRepository.findOneBy({
+            id: params.course_id
+        })
+
+        const gradeCourse = new Grade()
+        gradeCourse.course = course
+
+        await gradeRepository.update(grade.id, gradeCourse)
+
+        return {status: 200, message: "OK"}
+    }
+
+    // VERIFICAR UMA POSSIBILIDADE, DE REMOVER A FUNÇÃO (assignGradeToCourse), E COLOCAR TUDO NO (updateGrade), SENDO ASSIM, DANDO A POSSIBILIDADE DO ADM COLOCAR O CURSO, E O PROFESSOR QUE DARÁ ESTA AULA.
 
     updateGrade = async ({body, params}: Request) => {
         const gradeRepository = AppDataSource.getRepository(Grade)
