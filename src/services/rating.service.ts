@@ -9,16 +9,25 @@ import {Student} from "../entities/student.entity"
 class RatingService {
     getRating = async ({params}: Request) => {
         const ratingRepository = AppDataSource.getRepository(Rating)
-        const rating = await ratingRepository.findOneBy({
-            id: params.rating_id
-        })
+        const rating = await ratingRepository.createQueryBuilder("rating")
+                                             .leftJoinAndSelect("rating.student", "student")
+                                             .select(["rating.id", "rating.description", "student.id", "student.name"])
+                                             .where("rating.id = :id", {
+                                                id: params.rating_id
+                                             })
+                                             .getOne()
 
         return {status: 200, message: rating}
     }
 
     getRatings = async () => {
         const ratingRepository = AppDataSource.getRepository(Rating)
-        const ratings = await ratingRepository.find()
+        const ratings = await ratingRepository.find({
+            select: {
+                id: true,
+                description: true,
+            }
+        })
 
         return {status: 200, message: ratings}
     }
