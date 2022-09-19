@@ -5,7 +5,7 @@ import {Grade} from "./grade.entity"
 import {Student} from "./student.entity"
 
 
-enum StatusGradeRole {
+export enum StatusGradeRole {
     COMPLETO = "Completo",
     INCOMPLETO = "Incompleto"
 }
@@ -31,6 +31,6 @@ export class StatusGrade {
     @ManyToOne(() => Grade, (grade) => grade.statusGrade)
     grade: Grade
 
-    @ManyToOne(() => Student, (student) => student.grade)
+    @ManyToOne(() => Student, (student) => student.grades)
     student: Student
 }

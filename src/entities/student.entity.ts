@@ -69,9 +69,13 @@ export class Student {
     @OneToMany(() => Rating, (rating) => rating.student)
     ratings: Rating[]
 
-    @OneToMany(() => StatusGrade, (statusGrade) => statusGrade.student)
-    grade: StatusGrade
+    @OneToMany(() => StatusGrade, (statusGrade) => statusGrade.student, {
+        eager: true
+    })
+    grades: StatusGrade
 
-    @OneToMany(() => StatusCourse, (statusCourse) => statusCourse.student)
+    @OneToMany(() => StatusCourse, (statusCourse) => statusCourse.student, {
+        eager: true
+    })
     courses: StatusCourse[]
 }

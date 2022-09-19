@@ -3,9 +3,14 @@ import {Request} from "express"
 import {AppDataSource} from "../data-source"
 import {Student} from "../entities/student.entity"
 import {Course} from "../entities/course.entity"
+import {StatusCourse} from "../entities/statusCourse.entity"
+import {StatusGrade} from "../entities/statusGrade.entity"
 
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+
+import {StatusCourseRole} from "../entities/statusCourse.entity"
+import {StatusGradeRole} from "../entities/statusGrade.entity"
 
 
 class StudentSerivce {
@@ -15,18 +20,12 @@ class StudentSerivce {
             email: decoded
         })
 
-        console.log(currentStudent)
-
         return {status: 200, message: currentStudent}
     }
 
     getUsers = async () => {
         const studentRepository = AppDataSource.getRepository(Student)
-        const students = await studentRepository.find({
-            relations: {
-                course: true
-            }
-        })
+        const students = await studentRepository.find()
 
         return {status: 200, message: students}
     }
@@ -67,6 +66,31 @@ class StudentSerivce {
         studentCourse.course = course
 
         await studentRepository.update(student.id, studentCourse)
+
+        const statusCourseRepository = AppDataSource.getRepository(StatusCourse)
+
+        const statusCourse = new StatusCourse()
+        statusCourse.duration = 0
+        statusCourse.status = StatusCourseRole.INCOMPLETO
+        statusCourse.courses = course
+        statusCourse.student = student
+
+        statusCourseRepository.create(statusCourse)
+        await statusCourseRepository.save(statusCourse)
+
+        const statusGradeRepository = AppDataSource.getRepository(StatusGrade)
+
+        const statusGrade = new StatusGrade()
+        
+        course.grades.map(async(grade) => {
+            statusGrade.duration = 0
+            statusGrade.status = StatusGradeRole.INCOMPLETO
+            statusGrade.student = student
+            statusGrade.grade = grade
+            
+            statusGradeRepository.create(statusGrade)
+            await statusGradeRepository.save(statusGrade)
+        })   
 
         return {status: 200, message: studentCourse.course}
     }

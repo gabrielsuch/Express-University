@@ -5,7 +5,7 @@ import {Course} from "./course.entity"
 import {Student} from "./student.entity"
 
 
-enum StatusCourseRole {
+export enum StatusCourseRole {
     COMPLETO = "Completo",
     INCOMPLETO = "Incompleto"
 }
