@@ -2,59 +2,36 @@ import {Request} from "express"
 
 import {AppDataSource} from "../data-source"
 import {Course} from "../entities/course.entity"
-import {Grade} from "../entities/grade.entity"
-import {Rating} from "../entities/rating.entity"
 
 
 class CourseService {
     getCourse = async ({params}: Request) => {
         const courseRepository = AppDataSource.getRepository(Course)
-        const gradeRepository = AppDataSource.getRepository(Grade)
-        const ratingRepository = AppDataSource.getRepository(Rating)
 
-        const course = await courseRepository.createQueryBuilder("grade")
-                                             .select(["grade.id", "grade.name", "grade.duration", "grade.created_at"])
-                                             .where("grade.id = :id", {
-                                                id: params.course_id
-                                             })
-                                             .getOne()
-
-        const grades = await gradeRepository.createQueryBuilder("grade")
-                                            .leftJoinAndSelect("grade.course", "course")
-                                            .select(["grade.id", "grade.name", "grade.duration"])
-                                            .where("course.id = :id", {
-                                                id: params.course_id
-                                            })
-                                            .getMany()
-
-        const ratings = await ratingRepository.createQueryBuilder("rating")
-                                              .leftJoinAndSelect("rating.course", "course")
-                                              .leftJoinAndSelect("rating.student", "student")
-                                              .select(["rating.id", "rating.description", "student.id", "student.name"])
+        // MUDAR O RETORNO, DO STUDENT (SOMENTE MOSTRAR O [ID, NAME])
+        const course = await courseRepository.createQueryBuilder("course")
+                                              .select(["course.id", "course.name", "course.duration", "course.created_at", "grades.id", "grades.name", "grades.duration"])
+                                              .leftJoinAndSelect("course.grades", "grades")
+                                              .leftJoinAndSelect("course.ratings", "ratings")
+                                              .leftJoinAndSelect("ratings.student", "student")
                                               .where("course.id = :id", {
                                                 id: params.course_id
                                               })
-                                              .getMany()
+                                              .getOne()
 
-        const courseReturn = {
-            id: course.id,
-            name: course.name,
-            duration: course.duration,
-            created_at: course.created_at,
-            grades: grades,
-            ratings: ratings
-        }
-
-        return {status: 200, message: courseReturn}
+        return {status: 200, message: course}
     }
 
     getAllCourses = async () => {
         const courseRepository = AppDataSource.getRepository(Course)
-        const courses = await courseRepository.find()
-        // const courses = await courseRepository.createQueryBuilder("grade")
-        //                                       .leftJoinAndSelect("grade.course", "course")
-        //                                       .select([""])
-        //                                       .getMany()
+
+        // MUDAR O RETORNO, DO STUDENT (SOMENTE MOSTRAR O [ID, NAME])
+        const courses = await courseRepository.createQueryBuilder("course")
+                                              .select(["course.id", "course.name", "course.duration", "course.created_at", "grades.id", "grades.name", "grades.duration"])
+                                              .leftJoinAndSelect("course.grades", "grades")
+                                              .leftJoinAndSelect("course.ratings", "ratings")
+                                              .leftJoinAndSelect("ratings.student", "student")
+                                              .getMany()
 
         return {status: 200, message: courses}
     }
