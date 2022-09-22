@@ -10,11 +10,9 @@ const route = Router()
 
 
 const employeeRoute = () => {
-    route.get("", verifyTokenMiddleware, EmployeeController.getCurrentEmployee)
+    route.get("/current", verifyTokenMiddleware, EmployeeController.getCurrentEmployee)
     route.get("/:id", verifyTokenMiddleware, EmployeeController.getEmployee)
-
-    // A ROTA /all, ESTÁ DANDO CONFLITO COM O PARAMS DA ROTA ACIMA /\
-    // route.get("/all", verifyTokenMiddleware, verifyAdminPermissionMiddleware, EmployeeController.getAllEmployees)
+    route.get("", verifyTokenMiddleware, verifyAdminPermissionMiddleware, EmployeeController.getAllEmployees)
     
     // route.post("", verifyTokenMiddleware, verifyAdminPermissionMiddleware, EmployeeController.createEmployee)
     route.post("", EmployeeController.createEmployee)
