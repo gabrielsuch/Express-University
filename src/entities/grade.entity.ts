@@ -12,12 +12,14 @@ export class Grade {
 
     @Column({
         unique: true,
-        length: 100
+        length: 100,
+        nullable: false
     })
     name: string
 
     @Column({
-        type: "float"
+        type: "float",
+        nullable: false
     })
     duration: number
 
