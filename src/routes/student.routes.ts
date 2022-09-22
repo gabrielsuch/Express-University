@@ -12,8 +12,8 @@ const route = Router()
 
 
 const studentRoute = () => {
-    route.get("", verifyTokenMiddleware, verifyStudentExistsMiddleware, StudentController.getCurrentUser)
-    route.get("/all", verifyTokenMiddleware, verifyAdminPermissionMiddleware, StudentController.getUsers)
+    route.get("/current", verifyTokenMiddleware, verifyStudentExistsMiddleware, StudentController.getCurrentUser)
+    route.get("", verifyTokenMiddleware, verifyAdminPermissionMiddleware, StudentController.getUsers)
     route.post("", StudentController.createUser)
     route.post("/login", StudentController.login)
     route.post("/course/:course_id", verifyTokenMiddleware, verifyStudentExistsMiddleware, verifyCourseExistsMiddleware, StudentController.joinCourse)
