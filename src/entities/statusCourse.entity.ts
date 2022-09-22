@@ -18,13 +18,15 @@ export class StatusCourse {
 
     @Column({
         type: "enum",
+        nullable: false,
         enum: StatusCourseRole,
         default: StatusCourseRole.INCOMPLETO
     })
     status: StatusCourseRole
 
     @Column({
-        type: "float"
+        type: "float",
+        nullable: false
     }) 
     duration: number
 

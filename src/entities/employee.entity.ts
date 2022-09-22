@@ -16,34 +16,43 @@ export class Employee {
     id: string
 
     @Column({
-        length: 100
+        length: 100,
+        nullable: false
     })
     name: string
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     birthdate: Date
 
     @Column({
         unique: true,
-        length: 14
+        length: 14,
+        nullable: false
     })
     cpf: string
 
     @Column({
-        length: 10
+        length: 14,
+        nullable: true
     })
     telephone: string
 
     @Column({
-        length: 11
+        length: 15,
+        nullable: true
     })
     cellphone: string
 
-    @CreateDateColumn()
+    @CreateDateColumn({
+        nullable: false
+    })
     created_at: Date
 
     @Column({
         type: "enum",
+        nullable: false,
         enum: SexRole,
         default: SexRole.NULL
     })
@@ -51,12 +60,14 @@ export class Employee {
 
     @Column({
         unique: true,
-        length: 150
+        length: 150,
+        nullable: false
     })
     email: string
 
     @Column({
-        length: 255
+        length: 255,
+        nullable: false
     })
     password: string
 

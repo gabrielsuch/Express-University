@@ -10,7 +10,8 @@ export class Rating {
     id: string
 
     @Column({
-        length: 255
+        length: 255,
+        nullable: false
     })
     description: string
     

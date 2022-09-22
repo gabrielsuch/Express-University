@@ -14,19 +14,25 @@ export class Course {
 
     @Column({
         unique: true,
-        length: 150
+        length: 150,
+        nullable: false
     })
     name: string
 
     @Column({
-        type: "float"
+        type: "float",
+        nullable: false
     })
     duration: number
 
-    @CreateDateColumn()
+    @CreateDateColumn({
+        nullable: false
+    })
     created_at: Date
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({
+        nullable: false
+    })
     updated_at: Date
 
     @OneToMany(() => Student, (student) => student.course)
