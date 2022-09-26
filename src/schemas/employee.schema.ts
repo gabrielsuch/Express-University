@@ -1,7 +1,7 @@
 import * as yup from "yup"
 
 
-const createStudentSchema = yup.object().shape({
+const createEmploeeSchema = yup.object().shape({
     name: yup.string().required().max(100),
     birthdate: yup.date().required(),
     cpf: yup.string().required().length(14),
@@ -12,7 +12,7 @@ const createStudentSchema = yup.object().shape({
     password: yup.string().required()
 })
 
-const updateStudentSchema = yup.object().shape({
+const updateEmploeeSchema = yup.object().shape({
     name: yup.string().optional().max(100),
     birthdate: yup.date().optional(),
     cpf: yup.string().optional().length(14),
@@ -23,10 +23,10 @@ const updateStudentSchema = yup.object().shape({
     password: yup.string().optional()
 })
 
-const loginStudentSchema = yup.object().shape({
+const loginEmploeeSchema = yup.object().shape({
     email: yup.string().required().email(),
     password: yup.string().required()
 })
 
 
-export {createStudentSchema, updateStudentSchema, loginStudentSchema}
+export {createEmploeeSchema, updateEmploeeSchema, loginEmploeeSchema}
