@@ -5,7 +5,7 @@ const createEmploeeSchema = yup.object().shape({
     name: yup.string().required().max(100),
     birthdate: yup.date().required(),
     cpf: yup.string().required().length(14),
-    telephone: yup.string().required().length(14),
+    telephone: yup.string().optional().length(14),
     cellphone: yup.string().required().length(15),
     sex: yup.string().optional(),
     email: yup.string().required().email(),
