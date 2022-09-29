@@ -16,13 +16,13 @@ const route = Router()
 
 
 const studentRoute = () => {
-    route.get("/current", verifyTokenMiddleware, verifyStudentExistsMiddleware, StudentController.getCurrentUser)
-    route.get("", verifyTokenMiddleware, verifyAdminPermissionMiddleware, StudentController.getUsers)
-    route.post("", validateSchemaMiddleware(createStudentSchema), StudentController.createUser)
-    route.post("/login", validateSchemaMiddleware(loginStudentSchema), StudentController.login)
+    route.get("/current", verifyTokenMiddleware, verifyStudentExistsMiddleware, StudentController.getCurrentStudent)
+    route.get("", verifyTokenMiddleware, verifyAdminPermissionMiddleware, StudentController.getStudents)
+    route.post("", validateSchemaMiddleware(createStudentSchema), StudentController.createStudent)
+    route.post("/login", validateSchemaMiddleware(loginStudentSchema), StudentController.loginStudent)
     route.post("/course/:course_id", validateUUIDMiddleware, verifyTokenMiddleware, verifyStudentExistsMiddleware, verifyCourseExistsMiddleware, StudentController.joinCourse)
-    route.patch("", verifyTokenMiddleware, validateSchemaMiddleware(updateStudentSchema), verifyStudentExistsMiddleware, StudentController.updateUser)
-    route.delete("", verifyTokenMiddleware, verifyStudentExistsMiddleware, StudentController.deleteUser)
+    route.patch("", verifyTokenMiddleware, validateSchemaMiddleware(updateStudentSchema), verifyStudentExistsMiddleware, StudentController.updateCurrentStudent)
+    route.delete("", verifyTokenMiddleware, verifyStudentExistsMiddleware, StudentController.deleteCurrentStudent)
 
     return route
 }

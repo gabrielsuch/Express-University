@@ -4,20 +4,20 @@ import StudentService from "../services/student.service"
 
 
 class StudentController {
-    getCurrentUser = async (req: Request, res: Response) => {
-        const user = await StudentService.getCurrentUser(req)
+    getCurrentStudent = async (req: Request, res: Response) => {
+        const user = await StudentService.getCurrentStudent(req)
 
         return res.status(user.status).json(user.message)
     }
 
-    getUsers = async (req: Request, res: Response) => {
-        const user = await StudentService.getUsers()
+    getStudents = async (req: Request, res: Response) => {
+        const user = await StudentService.getStudents()
 
         return res.status(user.status).json(user.message)
     }
 
-    createUser = async (req: Request, res: Response) => {
-        const user = await StudentService.createUser(req)
+    createStudent = async (req: Request, res: Response) => {
+        const user = await StudentService.createStudent(req)
 
         return res.status(user.status).json(user.message)
     }
@@ -28,20 +28,20 @@ class StudentController {
         return res.status(course.status).json(course.message)
     }
 
-    updateUser = async (req: Request, res: Response) => {
-        const user = await StudentService.updateUser(req)
+    updateCurrentStudent = async (req: Request, res: Response) => {
+        const user = await StudentService.updateCurrentStudent(req)
 
         return res.status(user.status).json(user.message)
     }
     
-    deleteUser = async (req: Request, res: Response) => {
-        const user = await StudentService.deleteUser(req)
+    deleteCurrentStudent = async (req: Request, res: Response) => {
+        const user = await StudentService.deleteCurrentStudent(req)
 
         return res.status(user.status).json(user.message)
     }
 
-    login = async (req: Request, res: Response) => {
-        const user = await StudentService.login(req)
+    loginStudent = async (req: Request, res: Response) => {
+        const user = await StudentService.loginStudent(req)
 
         return res.status(user.status).json(user.message)
     }
