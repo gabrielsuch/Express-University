@@ -47,7 +47,7 @@ class StudentSerivce {
         studentRepository.create(student)
         await studentRepository.save(student)
 
-        return {status: 201, message: student}
+        return {status: 201, message: validated}
     }
 
     joinCourse = async ({params, decoded}: Request) => {
