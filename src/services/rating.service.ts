@@ -60,7 +60,6 @@ class RatingService {
         } 
 
         const rating = new Rating()
-        rating.id = validated["id"]
         rating.description = validated["description"]
         rating.course = course
         rating.student = student

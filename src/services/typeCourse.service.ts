@@ -25,7 +25,6 @@ class TypeCourseService {
         const typeCourseRepository = AppDataSource.getRepository(TypeCourse)
         
         const typeCourse = new TypeCourse()
-        typeCourse.id = validated["id"]
         typeCourse.name = validated["name"]
 
         typeCourseRepository.create(typeCourse)

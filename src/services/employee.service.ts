@@ -46,7 +46,6 @@ class EmployeeService {
         const employeeRepository = AppDataSource.getRepository(Employee)
         
         const employee = new Employee()
-        employee.id = body.id
         employee.name = body.name
         employee.birthdate = body.birthdate
         employee.cpf = body.cpf

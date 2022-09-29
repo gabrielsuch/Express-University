@@ -40,7 +40,6 @@ class CourseService {
         const courseRepository = AppDataSource.getRepository(Course)
 
         const course = new Course()
-        course.id = body.id
         course.name = body.name
         course.duration = body.duration
         course.created_at = body.created_at

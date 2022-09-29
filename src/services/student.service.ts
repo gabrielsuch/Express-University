@@ -34,7 +34,6 @@ class StudentSerivce {
         const studentRepository = AppDataSource.getRepository(Student)
 
         const student = new Student()
-        student.id = validated["id"]
         student.name = validated["name"]
         student.birthdate = validated["birthdate"]
         student.cpf = validated["cpf"]

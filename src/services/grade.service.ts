@@ -22,18 +22,17 @@ class GradeService {
         return {status: 200, message: grades}
     }
 
-    createGrade = async ({body}: Request) => {
+    createGrade = async ({validated}: Request) => {
         const gradeRepository = AppDataSource.getRepository(Grade)
 
         const grade = new Grade()
-        grade.id = body.id
-        grade.name = body.name
-        grade.duration = body.duration
+        grade.name = validated["name"]
+        grade.duration = validated["duration"]
 
         gradeRepository.create(grade)
         await gradeRepository.save(grade)
 
-        return {status: 201, message: grade}
+        return {status: 201, message: validated}
     }
 
     assignGradeToCourse = async ({params}: Request) => {
