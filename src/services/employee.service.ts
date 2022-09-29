@@ -72,6 +72,10 @@ class EmployeeService {
             return {status: 404, message: {error: "Employee not found."}}
         }
 
+        if(body.password) {
+            body.password = await bcrypt.hash(body.password, 10)
+        }
+
         await employeeRepository.update(employeeExists.id, body)
 
         const updatedEmployee = await employeeRepository.findOneBy({
