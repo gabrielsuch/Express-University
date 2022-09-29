@@ -74,14 +74,31 @@ class StudentSerivce {
         statusCourse.courses = course
         statusCourse.student = student
 
-        statusCourseRepository.create(statusCourse)
-        await statusCourseRepository.save(statusCourse)
+        const findStudentInCourse = await statusCourseRepository.find({
+            where: {
+                courses: {
+                    id: statusCourse.courses.id
+                },
+                student: {
+                    id: statusCourse.student.id
+                }
+            }
+        })
+
+        if(findStudentInCourse.length <= 0) {
+            statusCourseRepository.create(statusCourse)
+            await statusCourseRepository.save(statusCourse)
+        }
+
 
         const statusGradeRepository = AppDataSource.getRepository(StatusGrade)
 
         const statusGrade = new StatusGrade()
         
         course.grades.map(async(grade) => {
+            // FAZER UMA VALIDAÇÃO, SE A GRADE JA ESTIVER, ENTÃO NÃO ADICIONAR
+            
+
             statusGrade.duration = 0
             statusGrade.status = StatusGradeRole.INCOMPLETO
             statusGrade.student = student
