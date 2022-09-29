@@ -97,7 +97,7 @@ class StudentSerivce {
         return {status: 200, message: studentCourse.course}
     }
 
-    updateUser = async ({body, validated, decoded}: Request) => {
+    updateUser = async ({body, decoded}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
         const currentStudent = await studentRepository.findOneBy({
             email: decoded
