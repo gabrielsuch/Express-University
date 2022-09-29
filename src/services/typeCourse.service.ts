@@ -31,7 +31,7 @@ class TypeCourseService {
         typeCourseRepository.create(typeCourse)
         await typeCourseRepository.save(typeCourse)
 
-        return {status: 201, message: typeCourse}
+        return {status: 201, message: validated}
     }
 
     updateTypeCourse = async ({body, params}: Request) => {

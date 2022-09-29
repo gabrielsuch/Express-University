@@ -33,8 +33,6 @@ class StudentSerivce {
     createUser = async ({validated}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
 
-        console.log(validated)
-
         const student = new Student()
         student.id = validated["id"]
         student.name = validated["name"]
