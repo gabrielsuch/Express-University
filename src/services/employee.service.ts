@@ -59,7 +59,7 @@ class EmployeeService {
         employeeRepository.create(employee)
         await employeeRepository.save(employee)
 
-        return {status: 201, message: employee}
+        return {status: 201, message: validated}
     }
 
     updateEmployee = async ({body, params}: Request) => {

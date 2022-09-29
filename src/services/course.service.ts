@@ -46,7 +46,7 @@ class CourseService {
         courseRepository.create(course)
         await courseRepository.save(course)
 
-        return {status: 201, message: course}
+        return {status: 201, message: validated}
     }
 
     updateCourse = async ({body, params}: Request) => {
