@@ -31,29 +31,24 @@ class StudentSerivce {
     }
 
     createUser = async ({body}: Request) => {
-        try {
-            const studentRepository = AppDataSource.getRepository(Student)
-    
-            const student = new Student()
-            student.id = body.id
-            student.name = body.name
-            student.birthdate = body.birthdate
-            student.cpf = body.cpf
-            student.telephone = body.telephone
-            student.cellphone = body.cellphone
-            student.created_at = body.created_at
-            student.sex = body.sex
-            student.email = body.email
-            student.password = await bcrypt.hash(body.password, 10)
-    
-            studentRepository.create(student)
-            await studentRepository.save(student)
-    
-            return {status: 201, message: student}
-        }
-        catch(err) {
-            return {status: 409, message: {error: err.detail}}
-        }
+        const studentRepository = AppDataSource.getRepository(Student)
+
+        const student = new Student()
+        student.id = body.id
+        student.name = body.name
+        student.birthdate = body.birthdate
+        student.cpf = body.cpf
+        student.telephone = body.telephone
+        student.cellphone = body.cellphone
+        student.created_at = body.created_at
+        student.sex = body.sex
+        student.email = body.email
+        student.password = await bcrypt.hash(body.password, 10)
+
+        studentRepository.create(student)
+        await studentRepository.save(student)
+
+        return {status: 201, message: student}
     }
 
     joinCourse = async ({params, decoded}: Request) => {
