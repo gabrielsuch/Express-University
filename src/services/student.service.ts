@@ -100,6 +100,10 @@ class StudentSerivce {
             email: decoded
         })
 
+        if(body.password) {
+            body.password = await bcrypt.hash(body.password, 10)
+        }
+
         await studentRepository.update(currentStudent.id, body)
 
         const updatedStudent = await studentRepository.findOneBy({
