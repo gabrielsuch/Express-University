@@ -14,7 +14,7 @@ import {StatusGradeRole} from "../entities/statusGrade.entity"
 
 
 class StudentSerivce {
-    getCurrentUser = async ({decoded}: Request) => {
+    getCurrentStudent = async ({decoded}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
         const currentStudent = await studentRepository.findOneBy({
             email: decoded
@@ -23,14 +23,14 @@ class StudentSerivce {
         return {status: 200, message: currentStudent}
     }
 
-    getUsers = async () => {
+    getStudents = async () => {
         const studentRepository = AppDataSource.getRepository(Student)
         const students = await studentRepository.find()
 
         return {status: 200, message: students}
     }
 
-    createUser = async ({validated}: Request) => {
+    createStudent = async ({validated}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
 
         const student = new Student()
@@ -94,7 +94,7 @@ class StudentSerivce {
         return {status: 200, message: studentCourse.course}
     }
 
-    updateUser = async ({body, decoded}: Request) => {
+    updateCurrentStudent = async ({body, decoded}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
         const currentStudent = await studentRepository.findOneBy({
             email: decoded
@@ -109,7 +109,7 @@ class StudentSerivce {
         return {status: 200, message: updatedStudent}
     }
 
-    deleteUser = async ({decoded}: Request) => {
+    deleteCurrentStudent = async ({decoded}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
         const currentStudent = await studentRepository.findOneBy({
             email: decoded
@@ -120,7 +120,7 @@ class StudentSerivce {
         return {status: 204, message: ""}
     }
 
-    login = async ({validated}: Request) => {
+    loginStudent = async ({validated}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
         const student = await studentRepository.findOneBy({
             email: validated["email"]
