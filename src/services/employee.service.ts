@@ -42,20 +42,19 @@ class EmployeeService {
         return {status: 200, message: employees}
     }
 
-    createEmployee = async ({body}: Request) => {
+    createEmployee = async ({validated}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
         
         const employee = new Employee()
-        employee.name = body.name
-        employee.birthdate = body.birthdate
-        employee.cpf = body.cpf
-        employee.telephone = body.telephone
-        employee.cellphone = body.cellphone
-        employee.created_at = body.created_at
-        employee.sex = body.sex
-        employee.email = body.email
-        employee.password = await bcrypt.hash(body.password, 10)
-        employee.is_adm = body.is_adm
+        employee.name = validated["name"]
+        employee.birthdate = validated["birthdate"]
+        employee.cpf = validated["cpf"]
+        employee.telephone = validated["telephone"]
+        employee.cellphone = validated["cellphone"]
+        employee.sex = validated["sex"]
+        employee.email = validated["email"]
+        employee.password = await bcrypt.hash(validated["password"], 10)
+        employee.is_adm = validated["is_adm"]
 
         employeeRepository.create(employee)
         await employeeRepository.save(employee)
