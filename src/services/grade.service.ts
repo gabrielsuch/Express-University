@@ -32,7 +32,7 @@ class GradeService {
         gradeRepository.create(grade)
         await gradeRepository.save(grade)
 
-        return {status: 201, message: validated}
+        return {status: 201, message: grade}
     }
 
     assignGradeToCourse = async ({params}: Request) => {
