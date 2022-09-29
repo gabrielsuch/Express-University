@@ -36,14 +36,14 @@ class CourseService {
         return {status: 200, message: courses}
     }
 
-    createCourse = async ({body}: Request) => {
+    createCourse = async ({validated}: Request) => {
         const courseRepository = AppDataSource.getRepository(Course)
 
         const course = new Course()
-        course.name = body.name
-        course.duration = body.duration
-        course.created_at = body.created_at
-        course.updated_at = body.created_at
+        course.name = validated["name"]
+        course.duration = validated["duration"]
+        course.created_at = validated["created_at"]
+        course.updated_at = validated["created_at"]
         
         courseRepository.create(course)
         await courseRepository.save(course)
