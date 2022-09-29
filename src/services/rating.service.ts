@@ -30,7 +30,7 @@ class RatingService {
         return {status: 200, message: ratings}
     }
 
-    createRating = async ({body, params, decoded}: Request) => {
+    createRating = async ({validated, params, decoded}: Request) => {
         const ratingRepository = AppDataSource.getRepository(Rating)
 
         const courseRepository = AppDataSource.getRepository(Course)
@@ -60,15 +60,14 @@ class RatingService {
         } 
 
         const rating = new Rating()
-        rating.id = body.id
-        rating.description = body.description
+        rating.description = validated["description"]
         rating.course = course
         rating.student = student
 
         ratingRepository.create(rating)
         await ratingRepository.save(rating)
 
-        return {status: 201, message: body}
+        return {status: 201, message: validated}
     }
 
     deleteRating = async ({params, decoded}: Request) => {

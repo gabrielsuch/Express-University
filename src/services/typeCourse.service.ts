@@ -21,17 +21,16 @@ class TypeCourseService {
         return {status: 200, message: typeCourses}
     }
 
-    createTypeCourse = async ({body}: Request) => {
+    createTypeCourse = async ({validated}: Request) => {
         const typeCourseRepository = AppDataSource.getRepository(TypeCourse)
         
         const typeCourse = new TypeCourse()
-        typeCourse.id = body.id
-        typeCourse.name = body.name
+        typeCourse.name = validated["name"]
 
         typeCourseRepository.create(typeCourse)
         await typeCourseRepository.save(typeCourse)
 
-        return {status: 201, message: typeCourse}
+        return {status: 201, message: validated}
     }
 
     updateTypeCourse = async ({body, params}: Request) => {

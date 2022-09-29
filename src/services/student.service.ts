@@ -30,20 +30,19 @@ class StudentSerivce {
         return {status: 200, message: students}
     }
 
-    createUser = async ({body}: Request) => {
+    createUser = async ({validated}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
 
         const student = new Student()
-        student.id = body.id
-        student.name = body.name
-        student.birthdate = body.birthdate
-        student.cpf = body.cpf
-        student.telephone = body.telephone
-        student.cellphone = body.cellphone
-        student.created_at = body.created_at
-        student.sex = body.sex
-        student.email = body.email
-        student.password = await bcrypt.hash(body.password, 10)
+        student.name = validated["name"]
+        student.birthdate = validated["birthdate"]
+        student.cpf = validated["cpf"]
+        student.telephone = validated["telephone"]
+        student.cellphone = validated["cellphone"]
+        student.created_at = validated["created_at"]
+        student.sex = validated["sex"]
+        student.email = validated["email"]
+        student.password = await bcrypt.hash(validated["password"], 10)
 
         studentRepository.create(student)
         await studentRepository.save(student)
@@ -121,21 +120,21 @@ class StudentSerivce {
         return {status: 204, message: ""}
     }
 
-    login = async ({body}: Request) => {
+    login = async ({validated}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
         const student = await studentRepository.findOneBy({
-            email: body.email
+            email: validated["email"]
         })
 
         if(!student) {
             return {status: 404, message: {error: "Email not found."}}
         }
 
-        if(!await bcrypt.compare(body.password, student.password)) {
+        if(!await bcrypt.compare(validated["password"], student.password)) {
             return {status: 400, message: {error: "Email or Password doesn't matches."}}
         }
         
-        const token = jwt.sign({email: body.email}, String(process.env.SECRET_KEY), {expiresIn: "12h"})
+        const token = jwt.sign({email: validated["email"]}, String(process.env.SECRET_KEY), {expiresIn: "12h"})
         
         return {status: 200, message: {accessToken: token}}
     }
