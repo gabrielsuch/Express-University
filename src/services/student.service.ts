@@ -109,7 +109,7 @@ class StudentSerivce {
         return {status: 200, message: updatedStudent}
     }
 
-    deleteCurrentStudent = async ({decoded}: Request) => {
+    deleteStudent = async ({decoded}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
         const currentStudent = await studentRepository.findOneBy({
             email: decoded
