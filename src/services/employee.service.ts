@@ -68,10 +68,6 @@ class EmployeeService {
             id: params.id
         })
 
-        if(!employeeExists) {
-            return {status: 404, message: {error: "Employee not found."}}
-        }
-
         if(body.password) {
             body.password = await bcrypt.hash(body.password, 10)
         }
@@ -90,10 +86,6 @@ class EmployeeService {
         const employeeExists = await employeeRepository.findOneBy({
             id: params.id
         })
-
-        if(!employeeExists) {
-            return {status: 404, message: {error: "Employee not found."}}
-        }
 
         await employeeRepository.delete(employeeExists.id)
 
