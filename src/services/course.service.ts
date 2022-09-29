@@ -42,8 +42,6 @@ class CourseService {
         const course = new Course()
         course.name = validated["name"]
         course.duration = validated["duration"]
-        course.created_at = validated["created_at"]
-        course.updated_at = validated["created_at"]
         
         courseRepository.create(course)
         await courseRepository.save(course)
