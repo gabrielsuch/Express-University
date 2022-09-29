@@ -10,10 +10,10 @@ class CourseService {
 
         // MUDAR O RETORNO, DO STUDENT (SOMENTE MOSTRAR O [ID, NAME])
         const course = await courseRepository.createQueryBuilder("course")
-                                              .select(["course.id", "course.name", "course.duration", "course.created_at", "grades.id", "grades.name", "grades.duration"])
-                                              .leftJoinAndSelect("course.grades", "grades")
-                                              .leftJoinAndSelect("course.ratings", "ratings")
-                                              .leftJoinAndSelect("ratings.student", "student")
+                                              .select(["course.id", "course.name", "course.duration", "course.created_at", "grade.id", "grade.name", "grade.duration"])
+                                              .leftJoinAndSelect("course.grades", "grade")
+                                              .leftJoinAndSelect("course.ratings", "rating")
+                                              .leftJoinAndSelect("rating.student", "student")
                                               .where("course.id = :id", {
                                                 id: params.course_id
                                               })
@@ -27,10 +27,10 @@ class CourseService {
 
         // MUDAR O RETORNO, DO STUDENT (SOMENTE MOSTRAR O [ID, NAME])
         const courses = await courseRepository.createQueryBuilder("course")
-                                              .select(["course.id", "course.name", "course.duration", "course.created_at", "grades.id", "grades.name", "grades.duration"])
-                                              .leftJoinAndSelect("course.grades", "grades")
-                                              .leftJoinAndSelect("course.ratings", "ratings")
-                                              .leftJoinAndSelect("ratings.student", "student")
+                                              .select(["course.id", "course.name", "course.duration", "course.created_at", "grade.id", "grade.name", "grade.duration"])
+                                              .leftJoinAndSelect("course.grades", "grade")
+                                              .leftJoinAndSelect("course.ratings", "rating")
+                                              .leftJoinAndSelect("rating.student", "student")
                                               .getMany()
 
         return {status: 200, message: courses}
