@@ -68,47 +68,59 @@ class StudentSerivce {
 
         const statusCourseRepository = AppDataSource.getRepository(StatusCourse)
 
-        const statusCourse = new StatusCourse()
-        statusCourse.duration = 0
-        statusCourse.status = StatusCourseRole.INCOMPLETO
-        statusCourse.courses = course
-        statusCourse.student = student
-
-        const findStudentInCourse = await statusCourseRepository.find({
+        const findStudentInCourse = await statusCourseRepository.findOne({
             where: {
                 courses: {
-                    id: statusCourse.courses.id
+                    id: params.course_id
                 },
                 student: {
-                    id: statusCourse.student.id
+                    id: student.id
                 }
             }
         })
 
-        if(findStudentInCourse.length <= 0) {
+        if(!findStudentInCourse) {
+            const statusCourse = new StatusCourse()
+            statusCourse.duration = 0
+            statusCourse.status = StatusCourseRole.INCOMPLETO
+            statusCourse.courses = course
+            statusCourse.student = student
+
             statusCourseRepository.create(statusCourse)
             await statusCourseRepository.save(statusCourse)
         }
-
 
         const statusGradeRepository = AppDataSource.getRepository(StatusGrade)
 
         const statusGrade = new StatusGrade()
         
         course.grades.map(async(grade) => {
-            // FAZER UMA VALIDAÇÃO, SE A GRADE JA ESTIVER, ENTÃO NÃO ADICIONAR
-            
 
-            statusGrade.duration = 0
-            statusGrade.status = StatusGradeRole.INCOMPLETO
-            statusGrade.student = student
-            statusGrade.grade = grade
-            
-            statusGradeRepository.create(statusGrade)
-            await statusGradeRepository.save(statusGrade)
+            const findStudentInGrade = await statusGradeRepository.findOne({
+                where: {
+                    grade: {
+                        id: grade.id
+                    },
+                    student: {
+                        id: student.id
+                    }
+                }
+            })
+
+            // FAZER MAIS ALGUNS TESTES, POIS HÁ UM BUG ONDE EH POSSIVEL ADICIONAR DUAS VEZES A MESMA GRADE.
+
+            if(!findStudentInGrade) {
+                statusGrade.duration = 0
+                statusGrade.status = StatusGradeRole.INCOMPLETO
+                statusGrade.student = student
+                statusGrade.grade = grade
+
+                statusGradeRepository.create(statusGrade)
+                await statusGradeRepository.save(statusGrade)
+            }
         })   
 
-        return {status: 200, message: studentCourse.course}
+        return {status: 200, message: {message: `${student.name} ingressou no curso de ${course.name}`}}
     }
 
     updateCurrentStudent = async ({body, decoded}: Request) => {
