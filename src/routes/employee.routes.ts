@@ -16,7 +16,7 @@ const route = Router()
 
 const employeeRoute = () => {
     route.get("/current", verifyTokenMiddleware, EmployeeController.getCurrentEmployee)
-    route.get("/:id", validateUUIDMiddleware, verifyTokenMiddleware, EmployeeController.getEmployee)
+    route.get("/:id", validateUUIDMiddleware, verifyTokenMiddleware, verifyEmployeeExistsMiddleware, EmployeeController.getEmployee)
     route.get("", verifyTokenMiddleware, verifyAdminPermissionMiddleware, EmployeeController.getAllEmployees)
     
     // route.post("", verifyTokenMiddleware, verifyAdminPermissionMiddleware, EmployeeController.createEmployee)

@@ -26,15 +26,11 @@ class EmployeeService {
 
     getEmployee = async ({params}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
-        const employeeExists = await employeeRepository.findOneBy({
+        const employee = await employeeRepository.findOneBy({
             id: params.id
         })
 
-        if(!employeeExists) {
-            return {status: 404, message: {error: "Employee not found."}}
-        }
-
-        return await serializedShowOneEmployeeSchema.validate(employeeExists, {stripUnknown: true})
+        return await serializedShowOneEmployeeSchema.validate(employee, {stripUnknown: true})
     }
 
     getAllEmployees = async () => {
@@ -66,7 +62,7 @@ class EmployeeService {
 
     updateEmployee = async ({validated, params}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
-        const employeeExists = await employeeRepository.findOneBy({
+        const employee = await employeeRepository.findOneBy({
             id: params.id
         })
 
@@ -74,7 +70,7 @@ class EmployeeService {
             validated["password"] = await bcrypt.hash(validated["password"], 10)
         }
 
-        await employeeRepository.update(employeeExists.id, {...validated as Employee})
+        await employeeRepository.update(employee.id, {...validated as Employee})
 
         const updatedEmployee = await employeeRepository.findOneBy({
             id: params.id
@@ -85,11 +81,11 @@ class EmployeeService {
 
     deleteEmployee = async ({params}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
-        const employeeExists = await employeeRepository.findOneBy({
+        const employee = await employeeRepository.findOneBy({
             id: params.id
         })
 
-        await employeeRepository.delete(employeeExists.id)
+        await employeeRepository.delete(employee.id)
 
         return {status: 204, message: ""}
     }
