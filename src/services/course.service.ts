@@ -3,6 +3,8 @@ import {Request} from "express"
 import {AppDataSource} from "../data-source"
 import {Course} from "../entities/course.entity"
 
+import {serializedShowCourseSchema, serializedCreateCourseSchema} from "../schemas/course.schema"
+
 
 class CourseService {
     getCourse = async ({params}: Request) => {
@@ -33,7 +35,8 @@ class CourseService {
                                               .leftJoinAndSelect("rating.student", "student")
                                               .getMany()
 
-        return {status: 200, message: courses}
+                                              
+        return await serializedShowCourseSchema.validate(courses, {stripUnknown: true})
     }
 
     createCourse = async ({validated}: Request) => {
@@ -44,9 +47,9 @@ class CourseService {
         course.duration = validated["duration"]
         
         courseRepository.create(course)
-        await courseRepository.save(course)
+        const courseCreated = await courseRepository.save(course)
 
-        return {status: 201, message: validated}
+        return await serializedCreateCourseSchema.validate(courseCreated, {stripUnknown: true})
     }
 
     updateCourse = async ({validated, params}: Request) => {
