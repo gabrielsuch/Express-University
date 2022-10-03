@@ -35,6 +35,7 @@ const serializedShowOneEmployeeSchema = yup.object().shape({
     cpf: yup.string().required(),
     telephone: yup.string().required(),
     cellphone: yup.string().required(),
+    created_at: yup.date().required(),
     sex: yup.string().required(),
     email: yup.string().required().email(),
     is_adm: yup.boolean().required()
@@ -48,11 +49,24 @@ const serializedShowAllEmployeeSchema = yup.array().of(
         cpf: yup.string().required(),
         telephone: yup.string().required(),
         cellphone: yup.string().required(),
+        created_at: yup.date().required(),
         sex: yup.string().required(),
         email: yup.string().required().email(),
         is_adm: yup.boolean().required()
     })
 )
 
+const serializedCreateOrUpdateEmployeeSchema = yup.object().shape({
+    id: yup.string().uuid().required(),
+    name: yup.string().required(),
+    birthdate: yup.date().required(),
+    cpf: yup.string().required(),
+    telephone: yup.string().required(),
+    cellphone: yup.string().required(),
+    created_at: yup.date().required(),
+    sex: yup.string().required(),
+    email: yup.string().required().email()
+})
 
-export {createEmployeeSchema, updateEmployeeSchema, loginEmployeeSchema, serializedShowOneEmployeeSchema, serializedShowAllEmployeeSchema}
+
+export {createEmployeeSchema, updateEmployeeSchema, loginEmployeeSchema, serializedShowOneEmployeeSchema, serializedShowAllEmployeeSchema, serializedCreateOrUpdateEmployeeSchema}

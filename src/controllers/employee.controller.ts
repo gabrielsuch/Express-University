@@ -13,7 +13,7 @@ class EmployeeController {
     getEmployee = async (req: Request, res: Response) => {
         const employee = await EmployeeService.getEmployee(req)
 
-        return res.status(employee.status).json(employee.message)
+        return res.status(200).json(employee)
     }
 
     getAllEmployees = async (req: Request, res: Response) => {
@@ -25,13 +25,13 @@ class EmployeeController {
     createEmployee = async (req: Request, res: Response) => {
         const employee = await EmployeeService.createEmployee(req)
 
-        return res.status(employee.status).json(employee.message)
+        return res.status(201).json(employee)
     }
 
     updateEmployee = async (req: Request, res: Response) => {
         const employee = await EmployeeService.updateEmployee(req)
 
-        return res.status(employee.status).json(employee.message)
+        return res.status(200).json(employee)
     }
 
     deleteEmployee = async (req: Request, res: Response) => {
