@@ -91,10 +91,10 @@ class StudentSerivce {
         }
 
         const statusGradeRepository = AppDataSource.getRepository(StatusGrade)
-
-        const statusGrade = new StatusGrade()
         
         course.grades.map(async(grade) => {
+
+            const statusGrade = new StatusGrade()
 
             const findStudentInGrade = await statusGradeRepository.findOne({
                 where: {
@@ -106,8 +106,6 @@ class StudentSerivce {
                     }
                 }
             })
-
-            // FAZER MAIS ALGUNS TESTES, POIS HÁ UM BUG ONDE EH POSSIVEL ADICIONAR DUAS VEZES A MESMA GRADE.
 
             if(!findStudentInGrade) {
                 statusGrade.duration = 0
