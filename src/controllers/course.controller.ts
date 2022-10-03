@@ -7,7 +7,7 @@ class CourseController {
     getCourse = async (req: Request, res: Response) => {
         const course = await CourseService.getCourse(req)
 
-        return res.status(course.status).json(course.message)
+        return res.status(200).json(course)
     }
 
     getAllCourses = async (req: Request, res: Response) => {
@@ -25,7 +25,7 @@ class CourseController {
     updateCourse = async (req: Request, res: Response) => {
         const course = await CourseService.updateCourse(req)
 
-        return res.status(course.status).json(course.message)
+        return res.status(200).json(course)
     }
 
     deleteCourse = async (req: Request, res: Response) => {

@@ -3,14 +3,13 @@ import {Request} from "express"
 import {AppDataSource} from "../data-source"
 import {Course} from "../entities/course.entity"
 
-import {serializedShowCourseSchema, serializedCreateCourseSchema} from "../schemas/course.schema"
+import {serializedShowAllCoursesSchema, serializedShowOneCourseSchema, serializedCreateOrUpdateCourseSchema} from "../schemas/course.schema"
 
 
 class CourseService {
     getCourse = async ({params}: Request) => {
         const courseRepository = AppDataSource.getRepository(Course)
 
-        // MUDAR O RETORNO, DO STUDENT (SOMENTE MOSTRAR O [ID, NAME])
         const course = await courseRepository.createQueryBuilder("course")
                                               .select(["course.id", "course.name", "course.duration", "course.created_at", "grade.id", "grade.name", "grade.duration"])
                                               .leftJoinAndSelect("course.grades", "grade")
@@ -21,13 +20,13 @@ class CourseService {
                                               })
                                               .getOne()
 
-        return {status: 200, message: course}
+
+        return await serializedShowOneCourseSchema.validate(course, {stripUnknown: true})
     }
 
     getAllCourses = async () => {
         const courseRepository = AppDataSource.getRepository(Course)
 
-        // MUDAR O RETORNO, DO STUDENT (SOMENTE MOSTRAR O [ID, NAME])
         const courses = await courseRepository.createQueryBuilder("course")
                                               .select(["course.id", "course.name", "course.duration", "course.created_at", "grade.id", "grade.name", "grade.duration"])
                                               .leftJoinAndSelect("course.grades", "grade")
@@ -35,8 +34,8 @@ class CourseService {
                                               .leftJoinAndSelect("rating.student", "student")
                                               .getMany()
 
-                                              
-        return await serializedShowCourseSchema.validate(courses, {stripUnknown: true})
+
+        return await serializedShowAllCoursesSchema.validate(courses, {stripUnknown: true})
     }
 
     createCourse = async ({validated}: Request) => {
@@ -49,7 +48,7 @@ class CourseService {
         courseRepository.create(course)
         const courseCreated = await courseRepository.save(course)
 
-        return await serializedCreateCourseSchema.validate(courseCreated, {stripUnknown: true})
+        return await serializedCreateOrUpdateCourseSchema.validate(courseCreated, {stripUnknown: true})
     }
 
     updateCourse = async ({validated, params}: Request) => {
@@ -64,7 +63,7 @@ class CourseService {
             id: params.course_id
         })
 
-        return {status: 200, message: updatedCourse}
+        return await serializedCreateOrUpdateCourseSchema.validate(updatedCourse, {stripUnknown: true})
     }
 
     deleteCourse = async ({params}: Request) => {
