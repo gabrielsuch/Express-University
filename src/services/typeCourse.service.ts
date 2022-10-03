@@ -33,13 +33,13 @@ class TypeCourseService {
         return {status: 201, message: validated}
     }
 
-    updateTypeCourse = async ({body, params}: Request) => {
+    updateTypeCourse = async ({validated, params}: Request) => {
         const typeCourseRepository = AppDataSource.getRepository(TypeCourse)
         const course = await typeCourseRepository.findOneBy({
             id: params.typeCourse_id
         })
 
-        await typeCourseRepository.update(course.id, body)
+        await typeCourseRepository.update(course.id, {...validated as TypeCourse})
 
         const updatedCourse = await typeCourseRepository.findOneBy({
             id: params.typeCourse_id
