@@ -91,10 +91,10 @@ class StudentSerivce {
         }
 
         const statusGradeRepository = AppDataSource.getRepository(StatusGrade)
-
-        const statusGrade = new StatusGrade()
         
         course.grades.map(async(grade) => {
+
+            const statusGrade = new StatusGrade()
 
             const findStudentInGrade = await statusGradeRepository.findOne({
                 where: {
@@ -107,15 +107,11 @@ class StudentSerivce {
                 }
             })
 
-            // FAZER MAIS ALGUNS TESTES, NAO ESTÁ ADICIONANDO TODAS AS MATERIAS DO CURSO, PORÉM A CADA REQUISIÇÃO QUE FAZ, ELE VAI ADICIONANDO DE 1 EM 1
-
             if(!findStudentInGrade) {
                 statusGrade.duration = 0
                 statusGrade.status = StatusGradeRole.INCOMPLETO
                 statusGrade.student = student
                 statusGrade.grade = grade
-
-                console.log(statusGrade)
 
                 statusGradeRepository.create(statusGrade)
                 await statusGradeRepository.save(statusGrade)
