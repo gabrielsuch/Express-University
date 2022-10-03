@@ -21,6 +21,7 @@ export class Course {
 
     @Column({
         type: "float",
+        default: 0,
         nullable: false
     })
     duration: number

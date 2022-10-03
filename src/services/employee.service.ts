@@ -8,6 +8,8 @@ import bcrypt from "bcrypt"
 
 import dotenv from "dotenv"
 
+import {serializedShowOneEmployeeSchema, serializedShowAllEmployeeSchema, serializedCreateOrUpdateEmployeeSchema} from "../schemas/employee.schema"
+
 
 dotenv.config()
 
@@ -19,27 +21,23 @@ class EmployeeService {
             email: decoded
         })
 
-        return {status: 200, message: currentEmployee}
+        return await serializedShowOneEmployeeSchema.validate(currentEmployee, {stripUnknown: true})
     }
 
     getEmployee = async ({params}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
-        const employeeExists = await employeeRepository.findOneBy({
+        const employee = await employeeRepository.findOneBy({
             id: params.id
         })
 
-        if(!employeeExists) {
-            return {status: 404, message: {error: "Employee not found."}}
-        }
-
-        return {status: 200, message: employeeExists}
+        return await serializedShowOneEmployeeSchema.validate(employee, {stripUnknown: true})
     }
 
     getAllEmployees = async () => {
         const employeeRepository = AppDataSource.getRepository(Employee)
         const employees = await employeeRepository.find()
 
-        return {status: 200, message: employees}
+        return await serializedShowAllEmployeeSchema.validate(employees, {stripUnknown: true})
     }
 
     createEmployee = async ({validated}: Request) => {
@@ -59,12 +57,12 @@ class EmployeeService {
         employeeRepository.create(employee)
         await employeeRepository.save(employee)
 
-        return {status: 201, message: validated}
+        return await serializedCreateOrUpdateEmployeeSchema.validate(employee, {stripUnknown: true})
     }
 
     updateEmployee = async ({validated, params}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
-        const employeeExists = await employeeRepository.findOneBy({
+        const employee = await employeeRepository.findOneBy({
             id: params.id
         })
 
@@ -72,22 +70,22 @@ class EmployeeService {
             validated["password"] = await bcrypt.hash(validated["password"], 10)
         }
 
-        await employeeRepository.update(employeeExists.id, {...validated as Employee})
+        await employeeRepository.update(employee.id, {...validated as Employee})
 
         const updatedEmployee = await employeeRepository.findOneBy({
             id: params.id
         })
 
-        return {status: 200, message: updatedEmployee}
+        return await serializedCreateOrUpdateEmployeeSchema.validate(updatedEmployee, {stripUnknown: true})
     }
 
     deleteEmployee = async ({params}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
-        const employeeExists = await employeeRepository.findOneBy({
+        const employee = await employeeRepository.findOneBy({
             id: params.id
         })
 
-        await employeeRepository.delete(employeeExists.id)
+        await employeeRepository.delete(employee.id)
 
         return {status: 204, message: ""}
     }
