@@ -7,7 +7,7 @@ class EmployeeController {
     getCurrentEmployee = async (req: Request, res: Response) => {
         const currentEmployee = await EmployeeService.getCurrentEmployee(req)
 
-        return res.status(currentEmployee.status).json(currentEmployee.message)
+        return res.status(200).json(currentEmployee)
     }
 
     getEmployee = async (req: Request, res: Response) => {
@@ -19,7 +19,7 @@ class EmployeeController {
     getAllEmployees = async (req: Request, res: Response) => {
         const employees = await EmployeeService.getAllEmployees()
 
-        return res.status(employees.status).json(employees.message)
+        return res.status(200).json(employees)
     }
 
     createEmployee = async (req: Request, res: Response) => {

@@ -8,6 +8,8 @@ import bcrypt from "bcrypt"
 
 import dotenv from "dotenv"
 
+import {serializedShowOneEmployeeSchema, serializedShowAllEmployeeSchema} from "../schemas/employee.schema"
+
 
 dotenv.config()
 
@@ -19,7 +21,7 @@ class EmployeeService {
             email: decoded
         })
 
-        return {status: 200, message: currentEmployee}
+        return await serializedShowOneEmployeeSchema.validate(currentEmployee, {stripUnknown: true})
     }
 
     getEmployee = async ({params}: Request) => {
@@ -39,7 +41,7 @@ class EmployeeService {
         const employeeRepository = AppDataSource.getRepository(Employee)
         const employees = await employeeRepository.find()
 
-        return {status: 200, message: employees}
+        return await serializedShowAllEmployeeSchema.validate(employees, {stripUnknown: true})
     }
 
     createEmployee = async ({validated}: Request) => {
