@@ -107,13 +107,15 @@ class StudentSerivce {
                 }
             })
 
-            // FAZER MAIS ALGUNS TESTES, POIS HÁ UM BUG ONDE EH POSSIVEL ADICIONAR DUAS VEZES A MESMA GRADE.
+            // FAZER MAIS ALGUNS TESTES, NAO ESTÁ ADICIONANDO TODAS AS MATERIAS DO CURSO, PORÉM A CADA REQUISIÇÃO QUE FAZ, ELE VAI ADICIONANDO DE 1 EM 1
 
             if(!findStudentInGrade) {
                 statusGrade.duration = 0
                 statusGrade.status = StatusGradeRole.INCOMPLETO
                 statusGrade.student = student
                 statusGrade.grade = grade
+
+                console.log(statusGrade)
 
                 statusGradeRepository.create(statusGrade)
                 await statusGradeRepository.save(statusGrade)
