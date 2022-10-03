@@ -123,17 +123,17 @@ class StudentSerivce {
         return {status: 200, message: {message: `${student.name} ingressou no curso de ${course.name}`}}
     }
 
-    updateCurrentStudent = async ({body, decoded}: Request) => {
+    updateCurrentStudent = async ({validated, decoded}: Request) => {
         const studentRepository = AppDataSource.getRepository(Student)
         const currentStudent = await studentRepository.findOneBy({
             email: decoded
         })
 
-        if(body.password) {
-            body.password = await bcrypt.hash(body.password, 10)
+        if(validated["password"]) {
+            validated["password"] = await bcrypt.hash(validated["password"], 10)
         }
 
-        await studentRepository.update(currentStudent.id, body)
+        await studentRepository.update(currentStudent.id, {...validated as Student})
 
         const updatedStudent = await studentRepository.findOneBy({
             email: decoded

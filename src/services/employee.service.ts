@@ -62,17 +62,17 @@ class EmployeeService {
         return {status: 201, message: validated}
     }
 
-    updateEmployee = async ({body, params}: Request) => {
+    updateEmployee = async ({validated, params}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)
         const employeeExists = await employeeRepository.findOneBy({
             id: params.id
         })
 
-        if(body.password) {
-            body.password = await bcrypt.hash(body.password, 10)
+        if(validated["password"]) {
+            validated["password"] = await bcrypt.hash(validated["password"], 10)
         }
 
-        await employeeRepository.update(employeeExists.id, body)
+        await employeeRepository.update(employeeExists.id, {...validated as Employee})
 
         const updatedEmployee = await employeeRepository.findOneBy({
             id: params.id
@@ -92,21 +92,21 @@ class EmployeeService {
         return {status: 204, message: ""}
     }
 
-    login = async ({body}: Request) => {
+    login = async ({validated}: Request) => {
         const employeeRepository = AppDataSource.getRepository(Employee)    
         const employee = await employeeRepository.findOneBy({
-            email: body.email
+            email: validated["email"]
         })
 
         if(!employee) {
             return {status: 404, message: {error: "Email not found."}}
         }
 
-        if(!await bcrypt.compare(body.password, employee.password)) {
+        if(!await bcrypt.compare(validated["password"], employee.password)) {
             return {status: 400, message: {error: "Email or Password doesn't matches."}}
         }
 
-        const token = jwt.sign({email: body.email}, String(process.env.SECRET_KEY), {expiresIn: "12h"})
+        const token = jwt.sign({email: validated["email"]}, String(process.env.SECRET_KEY), {expiresIn: "12h"})
         
         return {status: 200, message: {accessToken: token}}
     }

@@ -56,13 +56,13 @@ class GradeService {
 
     // VERIFICAR UMA POSSIBILIDADE, DE REMOVER A FUNÇÃO (assignGradeToCourse), E COLOCAR TUDO NO (updateGrade), SENDO ASSIM, DANDO A POSSIBILIDADE DO ADM COLOCAR O CURSO, E O PROFESSOR QUE DARÁ ESTA AULA.
 
-    updateGrade = async ({body, params}: Request) => {
+    updateGrade = async ({validated, params}: Request) => {
         const gradeRepository = AppDataSource.getRepository(Grade)
         const grade = await gradeRepository.findOneBy({
             id: params.grade_id
         })
 
-        await gradeRepository.update(grade.id, body)
+        await gradeRepository.update(grade.id, {...validated as Grade})
 
         const updatedGrade = await gradeRepository.findOneBy({
             id: params.grade_id
