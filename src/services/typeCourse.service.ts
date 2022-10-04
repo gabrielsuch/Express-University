@@ -18,7 +18,11 @@ class TypeCourseService {
 
     getAllTypeCourses = async () => {
         const typeCourseRepository = AppDataSource.getRepository(TypeCourse)
-        const typeCourses = await typeCourseRepository.find()
+        const typeCourses = await typeCourseRepository.find({
+            order: {
+                name: "ASC"
+            },
+        })
 
         return await serializedShowAllTypeCourseSchema.validate(typeCourses, {stripUnknown: true})
     }
