@@ -27,6 +27,7 @@ class RatingService {
         const ratings = await ratingRepository.createQueryBuilder("rating")
                                              .leftJoinAndSelect("rating.student", "student")
                                              .select(["rating.id", "rating.description", "student.id", "student.name"])
+                                             .orderBy("rating.created_at", "DESC")
                                              .getMany()
 
         return await serializedShowAllRatingsSchema.validate(ratings, {stripUnknown: true})
