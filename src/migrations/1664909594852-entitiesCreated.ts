@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class entitiesCreated1664833962693 implements MigrationInterface {
-    name = 'entitiesCreated1664833962693'
+export class entitiesCreated1664909594852 implements MigrationInterface {
+    name = 'entitiesCreated1664909594852'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "rating" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "description" character varying(255) NOT NULL, "courseId" uuid, "studentId" uuid, CONSTRAINT "PK_ecda8ad32645327e4765b43649e" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "rating" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "description" character varying(255) NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "courseId" uuid, "studentId" uuid, CONSTRAINT "PK_ecda8ad32645327e4765b43649e" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "employee" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(100) NOT NULL, "birthdate" TIMESTAMP NOT NULL, "cpf" character varying(14) NOT NULL, "telephone" character varying(14), "cellphone" character varying(15), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "sex" "public"."employee_sex_enum" NOT NULL DEFAULT 'null', "email" character varying(150) NOT NULL, "password" character varying(255) NOT NULL, "is_adm" boolean NOT NULL DEFAULT false, CONSTRAINT "UQ_cc5bc3cbcb7312fbc898749c5bc" UNIQUE ("cpf"), CONSTRAINT "UQ_817d1d427138772d47eca048855" UNIQUE ("email"), CONSTRAINT "PK_3c2bc72f03fd5abbbc5ac169498" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "grade" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(100) NOT NULL, "duration" double precision NOT NULL, "courseId" uuid, "teacherId" uuid, CONSTRAINT "UQ_3b476d2f648bed3dfb3087fe81b" UNIQUE ("name"), CONSTRAINT "PK_58c2176c3ae96bf57daebdbcb5e" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "status_grade" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "status" "public"."status_grade_status_enum" NOT NULL DEFAULT 'Incompleto', "duration" double precision NOT NULL, "gradeId" uuid, "studentId" uuid, CONSTRAINT "PK_f83106be6e6de8a7d096fae643b" PRIMARY KEY ("id"))`);
