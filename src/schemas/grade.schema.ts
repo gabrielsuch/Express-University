@@ -11,5 +11,37 @@ const updateGradeSchema = yup.object().shape({
     duration: yup.number().optional().positive()
 })
 
+const serializedShowOneGradeSchema = yup.object().shape({
+    id: yup.string().uuid().required(),
+    name: yup.string().required(),
+    duration: yup.number().positive().required(),
+    teacher: yup.object().shape({
+        id: yup.string().uuid().optional(),
+        name: yup.string().optional()
+    }).nullable().optional()
+}).required()
 
-export {createGradeSchema, updateGradeSchema}
+const serializedShowAllGradesSchema = yup.array().of(
+    yup.object().shape({
+        id: yup.string().uuid().required(),
+        name: yup.string().required(),
+        duration: yup.number().positive().required(),
+        teacher: yup.object().shape({
+            id: yup.string().uuid().optional(),
+            name: yup.string().optional()
+        }).optional().nullable()
+    }).required()
+)
+
+const serializedCreateOrUpdateGradeSchema = yup.object().shape({
+    id: yup.string().uuid().required(),
+    name: yup.string().required(),
+    duration: yup.number().positive(),
+    teacher: yup.object().shape({
+        id: yup.string().uuid().optional(),
+        name: yup.string().optional()
+    }).optional().nullable()
+})
+
+
+export {createGradeSchema, updateGradeSchema, serializedShowOneGradeSchema, serializedShowAllGradesSchema, serializedCreateOrUpdateGradeSchema}
