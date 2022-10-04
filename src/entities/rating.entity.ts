@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm"
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn} from "typeorm"
 
 import {Course} from "./course.entity"
 import {Student} from "./student.entity"
@@ -14,6 +14,11 @@ export class Rating {
         nullable: false
     })
     description: string
+
+    @CreateDateColumn({
+        nullable: false
+    })
+    created_at: Date
     
     @ManyToOne(() => Course, (course) => course.ratings)
     course: Course
