@@ -7,7 +7,7 @@ AppDataSource.initialize()
 .then(() => {
     console.log("Data Source initialized")
 
-    const PORT = 3000
+    const PORT = 3001
 
     app.listen(PORT, () => {
         console.log(`Listening at localhost:${PORT}`)

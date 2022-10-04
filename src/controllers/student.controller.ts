@@ -7,31 +7,25 @@ class StudentController {
     getCurrentStudent = async (req: Request, res: Response) => {
         const user = await StudentService.getCurrentStudent(req)
 
-        return res.status(user.status).json(user.message)
+        return res.status(200).json(user)
     }
 
     getStudents = async (req: Request, res: Response) => {
         const user = await StudentService.getStudents()
 
-        return res.status(user.status).json(user.message)
+        return res.status(200).json(user)
     }
 
     createStudent = async (req: Request, res: Response) => {
         const user = await StudentService.createStudent(req)
 
-        return res.status(user.status).json(user.message)
-    }
-
-    joinCourse = async (req: Request, res: Response) => {
-        const course = await StudentService.joinCourse(req)
-
-        return res.status(course.status).json(course.message)
+        return res.status(201).json(user)
     }
 
     updateCurrentStudent = async (req: Request, res: Response) => {
         const user = await StudentService.updateCurrentStudent(req)
 
-        return res.status(user.status).json(user.message)
+        return res.status(200).json(user)
     }
     
     deleteCurrentStudent = async (req: Request, res: Response) => {
@@ -44,6 +38,12 @@ class StudentController {
         const user = await StudentService.loginStudent(req)
 
         return res.status(user.status).json(user.message)
+    }
+
+    joinCourse = async (req: Request, res: Response) => {
+        const course = await StudentService.joinCourse(req)
+
+        return res.status(course.status).json(course.message)
     }
 }
 

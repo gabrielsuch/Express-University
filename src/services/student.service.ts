@@ -12,6 +12,8 @@ import jwt from "jsonwebtoken"
 import {StatusCourseRole} from "../entities/statusCourse.entity"
 import {StatusGradeRole} from "../entities/statusGrade.entity"
 
+import {serializedShowOneStudentSchema, serializedShowAllStudentSchema, serializedCreateOrUpdateStudentSchema} from "../schemas/student.schema"
+
 
 class StudentSerivce {
     getCurrentStudent = async ({decoded}: Request) => {
@@ -20,14 +22,14 @@ class StudentSerivce {
             email: decoded
         })
 
-        return {status: 200, message: currentStudent}
+        return await serializedShowOneStudentSchema.validate(currentStudent, {stripUnknown: true})
     }
 
     getStudents = async () => {
         const studentRepository = AppDataSource.getRepository(Student)
         const students = await studentRepository.find()
 
-        return {status: 200, message: students}
+        return await serializedShowAllStudentSchema.validate(students, {stripUnknown: true})
     }
 
     createStudent = async ({validated}: Request) => {
@@ -47,7 +49,56 @@ class StudentSerivce {
         studentRepository.create(student)
         await studentRepository.save(student)
 
-        return {status: 201, message: validated}
+        return await serializedCreateOrUpdateStudentSchema.validate(student, {stripUnknown: true})
+    }
+
+    updateCurrentStudent = async ({validated, decoded}: Request) => {
+        const studentRepository = AppDataSource.getRepository(Student)
+        const currentStudent = await studentRepository.findOneBy({
+            email: decoded
+        })
+
+        if(validated["password"]) {
+            validated["password"] = await bcrypt.hash(validated["password"], 10)
+        }
+
+        await studentRepository.update(currentStudent.id, {...validated as Student})
+
+        const updatedStudent = await studentRepository.findOneBy({
+            email: decoded
+        })
+
+        return await serializedCreateOrUpdateStudentSchema.validate(updatedStudent, {stripUnknown: true})
+    }
+
+    deleteCurrentStudent = async ({decoded}: Request) => {
+        const studentRepository = AppDataSource.getRepository(Student)
+        const currentStudent = await studentRepository.findOneBy({
+            email: decoded
+        })
+
+        await studentRepository.delete(currentStudent.id)
+
+        return {status: 204, message: ""}
+    }
+
+    loginStudent = async ({validated}: Request) => {
+        const studentRepository = AppDataSource.getRepository(Student)
+        const student = await studentRepository.findOneBy({
+            email: validated["email"]
+        })
+
+        if(!student) {
+            return {status: 404, message: {error: "Email not found."}}
+        }
+
+        if(!await bcrypt.compare(validated["password"], student.password)) {
+            return {status: 400, message: {error: "Email or Password doesn't matches."}}
+        }
+        
+        const token = jwt.sign({email: validated["email"]}, String(process.env.SECRET_KEY), {expiresIn: "12h"})
+        
+        return {status: 200, message: {accessToken: token}}
     }
 
     joinCourse = async ({params, decoded}: Request) => {
@@ -119,55 +170,6 @@ class StudentSerivce {
         })   
 
         return {status: 200, message: {message: `${student.name} ingressou no curso de ${course.name}`}}
-    }
-
-    updateCurrentStudent = async ({validated, decoded}: Request) => {
-        const studentRepository = AppDataSource.getRepository(Student)
-        const currentStudent = await studentRepository.findOneBy({
-            email: decoded
-        })
-
-        if(validated["password"]) {
-            validated["password"] = await bcrypt.hash(validated["password"], 10)
-        }
-
-        await studentRepository.update(currentStudent.id, {...validated as Student})
-
-        const updatedStudent = await studentRepository.findOneBy({
-            email: decoded
-        })
-
-        return {status: 200, message: updatedStudent}
-    }
-
-    deleteCurrentStudent = async ({decoded}: Request) => {
-        const studentRepository = AppDataSource.getRepository(Student)
-        const currentStudent = await studentRepository.findOneBy({
-            email: decoded
-        })
-
-        await studentRepository.delete(currentStudent.id)
-
-        return {status: 204, message: ""}
-    }
-
-    loginStudent = async ({validated}: Request) => {
-        const studentRepository = AppDataSource.getRepository(Student)
-        const student = await studentRepository.findOneBy({
-            email: validated["email"]
-        })
-
-        if(!student) {
-            return {status: 404, message: {error: "Email not found."}}
-        }
-
-        if(!await bcrypt.compare(validated["password"], student.password)) {
-            return {status: 400, message: {error: "Email or Password doesn't matches."}}
-        }
-        
-        const token = jwt.sign({email: validated["email"]}, String(process.env.SECRET_KEY), {expiresIn: "12h"})
-        
-        return {status: 200, message: {accessToken: token}}
     }
 }
 
