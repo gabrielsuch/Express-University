@@ -28,5 +28,51 @@ const loginStudentSchema = yup.object().shape({
     password: yup.string().required()
 })
 
+const serializedShowOneStudentSchema = yup.object().shape({
+    id: yup.string().uuid().required(),
+    name: yup.string().required(),
+    birthdate: yup.date().required(),
+    cpf: yup.string().required(),
+    telephone: yup.string().optional().nullable(),
+    cellphone: yup.string().optional().nullable(),
+    created_at: yup.date().required(),
+    sex: yup.string().required(),
+    email: yup.string().required().email(),
+    // course: yup.object().shape({
+    //     id: yup.string().uuid().optional(),
+    //     name: yup.string().optional()
+    // }).nullable().optional()
+})
 
-export {createStudentSchema, updateStudentSchema, loginStudentSchema}
+const serializedShowAllStudentSchema = yup.array().of(
+    yup.object().shape({
+        id: yup.string().uuid().required(),
+        name: yup.string().required(),
+        birthdate: yup.date().required(),
+        cpf: yup.string().required(),
+        telephone: yup.string().optional().nullable(),
+        cellphone: yup.string().optional().nullable(),
+        created_at: yup.date().required(),
+        sex: yup.string().required(),
+        email: yup.string().required().email(),
+        // course: yup.object().shape({
+        //     id: yup.string().uuid().optional(),
+        //     name: yup.string().optional()
+        // }).nullable().optional()
+    })
+)
+
+const serializedCreateOrUpdateStudentSchema = yup.object().shape({
+    id: yup.string().uuid().required(),
+    name: yup.string().required(),
+    birthdate: yup.date().required(),
+    cpf: yup.string().required(),
+    telephone: yup.string().optional().nullable(),
+    cellphone: yup.string().optional().nullable(),
+    created_at: yup.date().required(),
+    sex: yup.string().required(),
+    email: yup.string().required().email()
+})
+
+
+export {createStudentSchema, updateStudentSchema, loginStudentSchema, serializedShowOneStudentSchema, serializedShowAllStudentSchema, serializedCreateOrUpdateStudentSchema}

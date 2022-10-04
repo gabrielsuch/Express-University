@@ -5,6 +5,8 @@ import {Rating} from "../entities/rating.entity"
 import {Course} from "../entities/course.entity"
 import {Student} from "../entities/student.entity"
 
+import {serializedShowOneRatingSchema, serializedShowAllRatingsSchema, serializedCreateRatingSchema} from "../schemas/rating.schema"
+
 
 class RatingService {
     getRating = async ({params}: Request) => {
@@ -17,7 +19,7 @@ class RatingService {
                                              })
                                              .getOne()
 
-        return {status: 200, message: rating}
+        return await serializedShowOneRatingSchema.validate(rating, {stripUnknown: true})
     }
 
     getRatings = async () => {
@@ -27,7 +29,7 @@ class RatingService {
                                              .select(["rating.id", "rating.description", "student.id", "student.name"])
                                              .getMany()
 
-        return {status: 200, message: ratings}
+        return await serializedShowAllRatingsSchema.validate(ratings, {stripUnknown: true})
     }
 
     createRating = async ({validated, params, decoded}: Request) => {
@@ -43,7 +45,7 @@ class RatingService {
             email: decoded
         })        
 
-        const userInCourse = await AppDataSource.getRepository(Student)
+        const studentInCourse = await AppDataSource.getRepository(Student)
                                                 .createQueryBuilder("student")
                                                 .leftJoinAndSelect("student.course", "course")
                                                 .where("student.id = :id", {
@@ -51,11 +53,11 @@ class RatingService {
                                                 })
                                                 .getOne()
                                                 
-        if(!userInCourse.course) {
+        if(!studentInCourse.course) {
             return {status: 404, message: {error: "You are not in a Course."}}
         }
 
-        if(userInCourse.course.id != course.id) {
+        if(studentInCourse.course.id != course.id) {
             return {status: 401, message: {error: "You are not in this Course to make Rating."}}
         } 
 
@@ -67,7 +69,7 @@ class RatingService {
         ratingRepository.create(rating)
         await ratingRepository.save(rating)
 
-        return {status: 201, message: validated}
+        return await serializedCreateRatingSchema.validate(rating, {stripUnknown: true})
     }
 
     deleteRating = async ({params, decoded}: Request) => {
