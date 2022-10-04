@@ -3,6 +3,8 @@ import {Request} from "express"
 import {AppDataSource} from "../data-source"
 import {TypeCourse} from "../entities/typeCourse.entity"
 
+import {serializedShowOneTypeCourseSchema, serializedShowAllTypeCourseSchema, serializedCreateOrUpdateTypeCourseSchema} from "../schemas/typeCourse.schema"
+
 
 class TypeCourseService {
     getTypeCourse = async ({params}: Request) => {
@@ -11,14 +13,14 @@ class TypeCourseService {
             id: params.typeCourse_id
         })
 
-        return {status: 200, message: typeCourse}
+        return await serializedShowOneTypeCourseSchema.validate(typeCourse, {stripUnknown: true})
     }
 
     getAllTypeCourses = async () => {
         const typeCourseRepository = AppDataSource.getRepository(TypeCourse)
         const typeCourses = await typeCourseRepository.find()
 
-        return {status: 200, message: typeCourses}
+        return await serializedShowAllTypeCourseSchema.validate(typeCourses, {stripUnknown: true})
     }
 
     createTypeCourse = async ({validated}: Request) => {
@@ -30,7 +32,7 @@ class TypeCourseService {
         typeCourseRepository.create(typeCourse)
         await typeCourseRepository.save(typeCourse)
 
-        return {status: 201, message: validated}
+        return await serializedCreateOrUpdateTypeCourseSchema.validate(typeCourse, {stripUnknown: true})
     }
 
     updateTypeCourse = async ({validated, params}: Request) => {
@@ -45,7 +47,7 @@ class TypeCourseService {
             id: params.typeCourse_id
         })
 
-        return {status: 200, message: updatedCourse}
+        return await serializedCreateOrUpdateTypeCourseSchema.validate(updatedCourse, {stripUnknown: true})
     }
 
     deleteTypeCourse = async ({params}: Request) => {
