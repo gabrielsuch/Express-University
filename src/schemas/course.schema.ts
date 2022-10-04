@@ -23,6 +23,10 @@ const serializedShowOneCourseSchema = yup.object().shape({
     duration: yup.number().required(),
     created_at: yup.date().required(),
     updated_at: yup.date().optional(),
+    // type: yup.object().shape({
+    //     id: yup.string().uuid().optional(),
+    //     name: yup.string().optional(),
+    // }).nullable().optional(),
     grades: yup.array().of(
         yup.object().shape({
             id: yup.string().uuid().optional(),
@@ -49,6 +53,10 @@ const serializedShowAllCoursesSchema = yup.array().of(
         duration: yup.number().required(),
         created_at: yup.date().required(),
         updated_at: yup.date().optional(),
+        // type: yup.object().shape({
+        //     id: yup.string().uuid().optional(),
+        //     name: yup.string().optional(),
+        // }).nullable().optional(),
         grades: yup.array().of(
             yup.object().shape({
                 id: yup.string().uuid().optional(),
