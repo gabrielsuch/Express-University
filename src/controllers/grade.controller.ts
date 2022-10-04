@@ -7,17 +7,29 @@ class GradeController {
     getGrade = async (req: Request, res: Response) => {
         const grade = await GradeService.getGrade(req)
 
-        return res.status(grade.status).json(grade.message)
+        return res.status(200).json(grade)
     }
 
     getGrades = async (req: Request, res: Response) => {
         const grades = await GradeService.getGrades()
 
-        return res.status(grades.status).json(grades.message)
+        return res.status(200).json(grades)
     }
 
     createGrade = async (req: Request, res: Response) => {
         const grade = await GradeService.createGrade(req)
+
+        return res.status(201).json(grade)
+    }
+
+    updateGrade = async (req: Request, res: Response) => {
+        const grade = await GradeService.updateGrade(req)
+
+        return res.status(200).json(grade)
+    }
+
+    deleteGrade = async (req: Request, res: Response) => {
+        const grade = await GradeService.deleteGrade(req)
 
         return res.status(grade.status).json(grade.message)
     }
@@ -26,18 +38,6 @@ class GradeController {
         const assign = await GradeService.assignGradeToCourse(req)
 
         return res.status(assign.status).json(assign.message)
-    }
-
-    updateGrade = async (req: Request, res: Response) => {
-        const grade = await GradeService.updateGrade(req)
-
-        return res.status(grade.status).json(grade.message)
-    }
-
-    deleteGrade = async (req: Request, res: Response) => {
-        const grade = await GradeService.deleteGrade(req)
-
-        return res.status(grade.status).json(grade.message)
     }
 }
 
