@@ -45,7 +45,7 @@ class RatingService {
             email: decoded
         })        
 
-        const userInCourse = await AppDataSource.getRepository(Student)
+        const studentInCourse = await AppDataSource.getRepository(Student)
                                                 .createQueryBuilder("student")
                                                 .leftJoinAndSelect("student.course", "course")
                                                 .where("student.id = :id", {
@@ -53,11 +53,11 @@ class RatingService {
                                                 })
                                                 .getOne()
                                                 
-        if(!userInCourse.course) {
+        if(!studentInCourse.course) {
             return {status: 404, message: {error: "You are not in a Course."}}
         }
 
-        if(userInCourse.course.id != course.id) {
+        if(studentInCourse.course.id != course.id) {
             return {status: 401, message: {error: "You are not in this Course to make Rating."}}
         } 
 
