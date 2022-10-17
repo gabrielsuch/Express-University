@@ -55,7 +55,7 @@ class RatingService {
                                                 .getOne()
                                                 
         if(!studentInCourse.course) {
-            return {status: 404, message: {error: "You are not in a Course."}}
+            return {status: 422, message: {error: "You are not in a Course."}}
         }
 
         if(studentInCourse.course.id != course.id) {
